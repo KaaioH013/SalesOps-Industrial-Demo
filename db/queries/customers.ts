@@ -6,6 +6,7 @@ import {
   eq,
   like,
   or,
+  sql,
   type SQL,
   type SQLWrapper,
 } from "drizzle-orm";
@@ -15,12 +16,15 @@ import {
   activities,
   contacts,
   customerNotes,
+  customerScores,
   customers,
   opportunities,
   orders,
   profiles,
   quotes,
+  salesTerritories,
 } from "../schema";
+import type { CustomerStatus } from "../schema/enums";
 
 export type CustomerQueryRole = "admin" | "manager" | "seller";
 
@@ -58,6 +62,31 @@ function customerScopeConditions(params: CustomerAccessParams): SQL[] {
   return conditions;
 }
 
+export type CustomerListRow = {
+  id: string;
+  legalName: string;
+  tradeName: string;
+  segment: string;
+  status: CustomerStatus;
+  lastPurchaseAt: Date | null;
+  territory: { id: string; name: string } | null;
+  seller: { id: string; name: string; email: string } | null;
+  revenueCents: number;
+  grossMarginBps: number | null;
+  priorityScore: number | null;
+};
+
+function computeGrossMarginBps(
+  revenueCents: number,
+  costCents: number,
+): number | null {
+  if (revenueCents <= 0) {
+    return null;
+  }
+
+  return Math.round(((revenueCents - costCents) / revenueCents) * 10_000);
+}
+
 export async function listCustomers(
   params: CustomerAccessParams & {
     q?: string;
@@ -86,6 +115,21 @@ export async function listCustomers(
   }
 
   const where = and(...conditions)!;
+  const orderStats = db
+    .select({
+      customerId: orders.customerId,
+      revenueCents: sql<number>`cast(coalesce(sum(${orders.revenueCents}), 0) as integer)`.as(
+        "revenue_cents",
+      ),
+      costCents: sql<number>`cast(coalesce(sum(${orders.costCents}), 0) as integer)`.as(
+        "cost_cents",
+      ),
+    })
+    .from(orders)
+    .where(eq(orders.organizationId, params.organizationId))
+    .groupBy(orders.customerId)
+    .as("order_stats");
+
   const [rows, totalRows] = await Promise.all([
     db
       .select({
@@ -95,9 +139,22 @@ export async function listCustomers(
           name: profiles.name,
           email: profiles.email,
         },
+        territory: {
+          id: salesTerritories.id,
+          name: salesTerritories.name,
+        },
+        priorityScore: customerScores.priorityScore,
+        revenueCents: orderStats.revenueCents,
+        costCents: orderStats.costCents,
       })
       .from(customers)
       .leftJoin(profiles, eq(customers.sellerId, profiles.id))
+      .leftJoin(
+        salesTerritories,
+        eq(customers.territoryId, salesTerritories.id),
+      )
+      .leftJoin(customerScores, eq(customers.id, customerScores.customerId))
+      .leftJoin(orderStats, eq(customers.id, orderStats.customerId))
       .where(where)
       .orderBy(asc(customers.tradeName), asc(customers.id))
       .limit(pageSize)
@@ -106,12 +163,31 @@ export async function listCustomers(
   ]);
 
   const total = totalRows[0]?.total ?? 0;
+  const hideMargin = params.role === "seller";
 
   return {
-    data: rows.map(({ customer, seller }) => ({
-      ...customer,
-      seller: seller?.id ? seller : null,
-    })),
+    data: rows.map(
+      ({ customer, seller, territory, priorityScore, revenueCents, costCents }) => {
+        const revenue = revenueCents ?? 0;
+        const cost = costCents ?? 0;
+
+        return {
+          id: customer.id,
+          legalName: customer.legalName,
+          tradeName: customer.tradeName,
+          segment: customer.segment,
+          status: customer.status,
+          lastPurchaseAt: customer.lastPurchaseAt,
+          territory: territory?.id ? territory : null,
+          seller: seller?.id ? seller : null,
+          revenueCents: revenue,
+          grossMarginBps: hideMargin
+            ? null
+            : computeGrossMarginBps(revenue, cost),
+          priorityScore: priorityScore ?? null,
+        } satisfies CustomerListRow;
+      },
+    ),
     page,
     pageSize,
     total,
