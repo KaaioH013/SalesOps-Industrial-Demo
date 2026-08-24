@@ -1,0 +1,3 @@
+﻿# Ralph Progress Log
+# Append-only learnings from each iteration. Do not delete previous entries.
+
