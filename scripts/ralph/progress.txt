@@ -83,3 +83,20 @@
 - Chaining to P2 pipeline
 ---
 
+
+## 2026-08-24 13:12 - P2-US-001
+- Opportunity risk helpers
+- Commit 2ca6990
+---
+
+
+## 2026-08-24 13:18 - P2-US-002
+- Pipeline kanban/table
+- Commit 267f6b2
+---
+
+
+## 2026-08-24 13:21 - P2 COMPLETE
+- Commit 66b12d0 detail; chaining P3
+---
+
