@@ -1,47 +1,48 @@
 {
   "project": "SalesOps Industrial Demo",
-  "branchName": "ralph/p4-commerce",
-  "description": "P4 — Quotes, orders and product catalog",
+  "branchName": "ralph/p5-insights",
+  "description": "P5 — Scoring engine, alerts, forecast, insights page, cron",
   "userStories": [
     {
-      "id": "P4-US-001",
-      "title": "Products catalog",
-      "description": "As a user, I browse products with family/application filters.",
+      "id": "P5-US-001",
+      "title": "Scoring and alert pure functions",
+      "description": "As a developer, I need tested deterministic scoring, RFM, repurchase, alerts, forecast.",
       "acceptanceCriteria": [
-        "/products list + detail",
-        "Cost/margin hidden for seller",
-        "Verify in browser if tools available"
+        "Priority score 0-100 with documented weights",
+        "14/30 day opportunity alerts",
+        "Quote margin alerts",
+        "Vitest coverage for rules",
+        "tests pass"
       ],
       "priority": 1,
-      "passes": true,
-      "notes": "Catálogo e detalhe com filtros de família/aplicação e campos financeiros removidos para vendedor."
+      "passes": false,
+      "notes": ""
     },
     {
-      "id": "P4-US-002",
-      "title": "Quotes list and detail",
-      "description": "As a manager, I review quotes with margin signals vs family target.",
+      "id": "P5-US-002",
+      "title": "Recalculate scores action and cron",
+      "description": "As an admin, I can recalculate scores via Server Action and cron route.",
       "acceptanceCriteria": [
-        "/quotes table + detail",
-        "grossMargin used; below-target flag",
-        "Seller cannot see cost",
-        "Verify in browser if tools available"
+        "Protected Server Action",
+        "GET/POST /api/cron/recalculate-scores requires CRON_SECRET",
+        "Persists customer_scores, alerts, forecast_snapshots"
       ],
       "priority": 2,
-      "passes": true,
-      "notes": "Lista e detalhe com grossMargin, meta ponderada por família, flag abaixo da meta e RBAC."
+      "passes": false,
+      "notes": ""
     },
     {
-      "id": "P4-US-003",
-      "title": "Orders list and detail",
-      "description": "As a manager, I review orders and margins with RBAC.",
+      "id": "P5-US-003",
+      "title": "Insights page four blocks",
+      "description": "As a coordinator, I use /insights for repurchase, inactivity, at-risk opps, margin risk.",
       "acceptanceCriteria": [
-        "/orders table + detail",
-        "Seller field stripping",
+        "Four blocks with score, factors, recommended action",
+        "Demonstrative disclaimer visible",
         "Verify in browser if tools available"
       ],
       "priority": 3,
-      "passes": true,
-      "notes": "Lista e detalhe com escopo por vendedor e remoção de custo/margem no retorno."
+      "passes": false,
+      "notes": ""
     }
   ]
 }

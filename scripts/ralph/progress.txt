@@ -110,3 +110,8 @@
 - Cotações usam grossMargin e meta ponderada das famílias dos itens
 - Full seed inclui itens de cotação para sinais de margem
 ---
+
+## 2026-08-24 13:34 - P4 COMPLETE
+- Commit 6c37d4a
+---
+
