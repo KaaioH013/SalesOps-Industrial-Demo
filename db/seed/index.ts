@@ -6,6 +6,7 @@ import {
   customers,
   opportunities,
   organizations,
+  organizationSettings,
   productFamilies,
   products,
   profiles,
@@ -14,6 +15,7 @@ import {
 import { verifyPassword } from "../../lib/auth/password";
 import { DEMO_ORGANIZATION_ID, DEMO_PASSWORDS, DEMO_USER_IDS, SEED } from "./constants";
 import { createDemoUsers } from "./demo-users";
+import { defaultOrganizationSettings } from "./org-settings";
 import { seedFullDatabase } from "./full";
 
 const territoryId = "territory-demo-southeast";
@@ -64,12 +66,18 @@ async function seedMinimal() {
       .delete(salesTerritories)
       .where(eq(salesTerritories.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(profiles).where(eq(profiles.organizationId, DEMO_ORGANIZATION_ID));
+    await tx
+      .delete(organizationSettings)
+      .where(eq(organizationSettings.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(organizations).where(eq(organizations.id, DEMO_ORGANIZATION_ID));
 
     await tx.insert(organizations).values({
       id: DEMO_ORGANIZATION_ID,
       name: "Indústria Demo Brasil",
     });
+    await tx
+      .insert(organizationSettings)
+      .values(defaultOrganizationSettings(DEMO_ORGANIZATION_ID));
     await tx.insert(profiles).values(demoUsers);
 
     await tx.insert(salesTerritories).values({

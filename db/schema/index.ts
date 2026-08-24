@@ -8,4 +8,5 @@ export * from "./intelligence";
 export * from "./organizations";
 export * from "./products";
 export * from "./profiles";
+export * from "./settings";
 export * from "./territories";
