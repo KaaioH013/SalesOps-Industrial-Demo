@@ -14,16 +14,18 @@ export function AppHeader({ userName, onMenuClick }: AppHeaderProps) {
         <button
           type="button"
           aria-label="Abrir menu de navegação"
-          className="rounded-md p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+          className="cursor-pointer rounded-md p-2 text-slate-600 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950 lg:hidden"
           onClick={onMenuClick}
         >
           <Menu className="h-5 w-5" />
         </button>
-        <div className="hidden sm:block">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Período
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-950">
+            SalesOps
           </p>
-          <p className="text-sm font-medium text-slate-900">Agosto de 2026</p>
+          <p className="text-sm font-semibold text-slate-900">
+            Industrial Demo
+          </p>
         </div>
       </div>
 

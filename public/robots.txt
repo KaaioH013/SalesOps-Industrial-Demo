@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /customers
+Disallow: /pipeline
+Disallow: /quotes
+Disallow: /orders
+Disallow: /products
+Disallow: /insights
+Disallow: /reports
+Disallow: /settings
+Disallow: /opportunities

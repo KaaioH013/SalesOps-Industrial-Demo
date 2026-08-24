@@ -54,3 +54,13 @@ next-env.d.ts
 # ralph
 scripts/ralph/archive/
 scripts/ralph/.last-branch
+
+__pycache__/
+*.pyc
+.cursor/skills/banner-design/
+.cursor/skills/brand/
+.cursor/skills/design/
+.cursor/skills/design-system/
+.cursor/skills/slides/
+.cursor/skills/ui-styling/
+

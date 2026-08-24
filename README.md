@@ -6,6 +6,21 @@ feita com Next.js, Turso/libSQL, Drizzle ORM e Auth.js.
 > Todos os nomes, documentos, usuários e dados comerciais deste projeto são
 > sintéticos. Não use a aplicação nem as credenciais demo com dados reais.
 
+A rota `/` é uma **landing de portfólio** (ideia, stack, como entrar). A app
+protegida começa em `/login` → `/dashboard`.
+
+## Segurança da demo pública
+
+- **Sem cadastro**: só autenticam e-mails da allowlist `*@demo.local` seed.
+- **Rate limit** em `/api/auth` (POST) e exports CSV.
+- **Sessão JWT** com validade de 8h.
+- **Headers**: `X-Frame-Options`, `nosniff`, CSP básica, `poweredBy` desligado.
+- **RBAC** no servidor (Seller sem custo/margem).
+- `DEMO_PROFILE_SWITCHER` desligado em produção por padrão.
+- Cron exige `CRON_SECRET`.
+
+Isso reduz abuso casual; não substitui WAF/Firewall em escala.
+
 ## Requisitos
 
 - Node.js 20 ou superior

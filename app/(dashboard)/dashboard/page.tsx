@@ -15,11 +15,14 @@ type DashboardPageProps = {
 };
 
 const PERIODS = [
-  { value: "3m", label: "Últimos 3 meses", months: 3 },
-  { value: "6m", label: "Últimos 6 meses", months: 6 },
-  { value: "12m", label: "Últimos 12 meses", months: 12 },
+  { value: "3m", label: "3 meses", months: 3 },
+  { value: "6m", label: "6 meses", months: 6 },
+  { value: "12m", label: "12 meses", months: 12 },
   { value: "ytd", label: "Ano atual", months: 0 },
 ] as const;
+
+const selectClassName =
+  "h-9 w-full min-w-0 cursor-pointer rounded border border-slate-300 bg-white px-2.5 text-sm text-slate-800 outline-none focus-visible:border-blue-950 focus-visible:ring-2 focus-visible:ring-blue-950/25";
 
 function resolvePeriod(value: string | undefined) {
   const selected = PERIODS.find((period) => period.value === value) ?? PERIODS[2];
@@ -35,7 +38,7 @@ function resolvePeriod(value: string | undefined) {
           ),
         );
 
-  return { selected: selected.value, from, to };
+  return { selected: selected.value, from, to, label: selected.label };
 }
 
 export default async function DashboardPage({
@@ -70,90 +73,104 @@ export default async function DashboardPage({
   ]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-        <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Dashboard executivo
-          </h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Receita, pipeline, carteira e prioridades comerciais em uma única
-            visão.
-          </p>
-        </div>
-        <form
-          className="grid gap-3 rounded-lg border border-slate-200 bg-white p-3 sm:grid-cols-2 lg:grid-cols-4"
-          method="get"
-        >
-          <label className="grid gap-1 text-xs font-medium text-slate-600">
-            Período
-            <select
-              className="min-h-11 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-200"
-              defaultValue={period.selected}
-              name="period"
-            >
-              {PERIODS.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="grid gap-1 text-xs font-medium text-slate-600">
-            Território
-            <select
-              className="min-h-11 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-200"
-              defaultValue={params.territoryId ?? ""}
-              name="territoryId"
-            >
-              <option value="">Todos</option>
-              {options.territories.map((territory) => (
-                <option key={territory.id} value={territory.id}>
-                  {territory.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="grid gap-1 text-xs font-medium text-slate-600">
-            Segmento
-            <select
-              className="min-h-11 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-200"
-              defaultValue={params.segment ?? ""}
-              name="segment"
-            >
-              <option value="">Todos</option>
-              {options.segments.map((segment) => (
-                <option key={segment} value={segment}>
-                  {segment}
-                </option>
-              ))}
-            </select>
-          </label>
-          {session.user.role !== "seller" ? (
-            <label className="grid gap-1 text-xs font-medium text-slate-600">
-              Vendedor
+    <div className="space-y-5">
+      <div className="relative overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <div
+          aria-hidden="true"
+          className="absolute inset-y-0 left-0 w-1.5 bg-blue-950"
+        />
+        <div className="flex flex-col gap-4 p-4 pl-5 sm:flex-row sm:items-end sm:justify-between sm:p-5 sm:pl-6">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-blue-950">
+              Inteligência comercial
+            </p>
+            <h1 className="mt-1 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">
+              Dashboard executivo
+            </h1>
+            <p className="mt-1 max-w-xl text-sm text-slate-600">
+              Recorte:{" "}
+              <strong className="font-semibold text-slate-900">
+                {period.label}
+              </strong>
+              . Filtre e priorize ações do dia.
+            </p>
+          </div>
+          <form
+            aria-label="Filtros do dashboard"
+            className="flex w-full flex-wrap items-end gap-2 sm:w-auto sm:justify-end"
+            method="get"
+          >
+            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+              Período
               <select
-                className="min-h-11 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-200"
-                defaultValue={params.sellerId ?? ""}
-                name="sellerId"
+                className={selectClassName}
+                defaultValue={period.selected}
+                name="period"
               >
-                <option value="">Todos</option>
-                {options.sellers.map((seller) => (
-                  <option key={seller.id} value={seller.id}>
-                    {seller.name}
+                {PERIODS.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
                   </option>
                 ))}
               </select>
             </label>
-          ) : null}
-          <button
-            className="min-h-11 cursor-pointer rounded-md bg-slate-900 px-4 text-sm font-semibold text-white transition hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 lg:col-start-4"
-            type="submit"
-          >
-            Aplicar filtros
-          </button>
-        </form>
+            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+              Território
+              <select
+                className={selectClassName}
+                defaultValue={params.territoryId ?? ""}
+                name="territoryId"
+              >
+                <option value="">Todos</option>
+                {options.territories.map((territory) => (
+                  <option key={territory.id} value={territory.id}>
+                    {territory.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+              Segmento
+              <select
+                className={selectClassName}
+                defaultValue={params.segment ?? ""}
+                name="segment"
+              >
+                <option value="">Todos</option>
+                {options.segments.map((segment) => (
+                  <option key={segment} value={segment}>
+                    {segment}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {session.user.role !== "seller" ? (
+              <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+                Vendedor
+                <select
+                  className={selectClassName}
+                  defaultValue={params.sellerId ?? ""}
+                  name="sellerId"
+                >
+                  <option value="">Todos</option>
+                  {options.sellers.map((seller) => (
+                    <option key={seller.id} value={seller.id}>
+                      {seller.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
+            <button
+              className="inline-flex h-9 cursor-pointer items-center justify-center rounded bg-blue-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
+              type="submit"
+            >
+              Aplicar
+            </button>
+          </form>
+        </div>
       </div>
+
       <DashboardWidgets metrics={metrics} />
     </div>
   );

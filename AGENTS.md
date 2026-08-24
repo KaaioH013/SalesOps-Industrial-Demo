@@ -13,6 +13,14 @@ Sem Claude Code/Amp pagos, use o subagente do projeto:
 - Estado: `scripts/ralph/prd.json` + `scripts/ralph/progress.txt`
 - Fluxo: Superpowers (brainstorming → prd → writing-plans → subagent-driven-development) + uma story por iteração
 
+## UI/UX Pro Max (este projeto)
+
+Skill instalada em `.cursor/skills/ui-ux-pro-max/` ([nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)).
+
+- Disparo: pedidos de UI/UX, design system, review visual, tipografia, charts, a11y
+- Search: `python .cursor/skills/ui-ux-pro-max/scripts/search.py "…" --design-system -p "SalesOps Industrial Demo"`
+- **Override do produto:** manter SaaS B2B industrial sóbrio (fundo claro acinzentado, azul profundo, sem glassmorphism/purple-AI), conforme spec em `docs/superpowers/specs/` — o ranking genérico da skill pode sugerir glass; filtrar com o brief do projeto
+
 ## Commands
 
 ```bash
