@@ -14,6 +14,7 @@ describe("generateFullSeedData", () => {
     expect(data.orders).toHaveLength(FULL_SEED_VOLUMES.orders);
     expect(data.orderItems).toHaveLength(FULL_SEED_VOLUMES.orderItems);
     expect(data.quotes).toHaveLength(FULL_SEED_VOLUMES.quotes);
+    expect(data.quoteItems).toHaveLength(FULL_SEED_VOLUMES.quoteItems);
     expect(data.opportunities).toHaveLength(FULL_SEED_VOLUMES.opportunities);
     expect(data.activities).toHaveLength(FULL_SEED_VOLUMES.activities);
     expect(data.targets).toHaveLength(15);

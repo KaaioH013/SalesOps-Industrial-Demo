@@ -1,6 +1,24 @@
-import { EmptyState } from "@/components/ui/empty-state";
+import { listQuotes } from "@/db/queries/quotes";
+import { QuoteTable } from "@/features/quotes/quote-table";
+import { auth } from "@/lib/auth/auth";
+import { canViewMargin } from "@/lib/permissions/roles";
 
-export default function QuotesPage() {
+export default async function QuotesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const session = await auth();
+  const params = await searchParams;
+  if (!session?.user) return null;
+  const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
+  const result = await listQuotes({
+    organizationId: session.user.organizationId,
+    role: session.user.role,
+    userId: session.user.id,
+    page,
+  });
+
   return (
     <div className="space-y-6">
       <div>
@@ -9,9 +27,12 @@ export default function QuotesPage() {
           Propostas comerciais e cotações enviadas.
         </p>
       </div>
-      <EmptyState
-        title="Nenhuma cotação registrada"
-        description="A listagem de cotações aparecerá aqui após a execução do seed do ambiente de demonstração."
+      <QuoteTable
+        page={result.page}
+        rows={result.data}
+        showFinancials={canViewMargin(session.user.role)}
+        total={result.total}
+        totalPages={result.totalPages}
       />
     </div>
   );

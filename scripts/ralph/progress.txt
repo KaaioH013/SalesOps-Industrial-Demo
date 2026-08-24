@@ -105,3 +105,8 @@
 - 8ed88f8 + 1b27cfe
 ---
 
+## 2026-08-24 13:32 - P4 COMPLETE
+- Catálogo, cotações e pedidos com lista/detalhe, paginação e RBAC financeiro
+- Cotações usam grossMargin e meta ponderada das famílias dos itens
+- Full seed inclui itens de cotação para sinais de margem
+---

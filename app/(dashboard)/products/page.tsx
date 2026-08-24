@@ -1,6 +1,41 @@
-import { EmptyState } from "@/components/ui/empty-state";
+import {
+  getProductFilterOptions,
+  listProducts,
+} from "@/db/queries/products";
+import { ProductCatalog } from "@/features/products/product-catalog";
+import { auth } from "@/lib/auth/auth";
+import { canViewMargin } from "@/lib/permissions/roles";
 
-export default function ProductsPage() {
+type ProductsPageProps = {
+  searchParams: Promise<{
+    q?: string;
+    familyId?: string;
+    application?: string;
+    page?: string;
+  }>;
+};
+
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const session = await auth();
+  const params = await searchParams;
+  if (!session?.user) return null;
+
+  const filters = {
+    q: params.q?.trim() ?? "",
+    familyId: params.familyId ?? "",
+    application: params.application ?? "",
+  };
+  const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
+  const [result, options] = await Promise.all([
+    listProducts({
+      organizationId: session.user.organizationId,
+      role: session.user.role,
+      ...filters,
+      page,
+    }),
+    getProductFilterOptions(session.user.organizationId),
+  ]);
+
   return (
     <div className="space-y-6">
       <div>
@@ -9,9 +44,14 @@ export default function ProductsPage() {
           Catálogo de produtos e tabelas de preço.
         </p>
       </div>
-      <EmptyState
-        title="Catálogo vazio"
-        description="Os produtos e famílias comerciais aparecerão aqui após a execução do seed do ambiente de demonstração."
+      <ProductCatalog
+        filters={filters}
+        options={options}
+        page={result.page}
+        rows={result.data}
+        showFinancials={canViewMargin(session.user.role)}
+        total={result.total}
+        totalPages={result.totalPages}
       />
     </div>
   );

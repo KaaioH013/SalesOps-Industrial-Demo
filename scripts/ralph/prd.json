@@ -13,8 +13,8 @@
         "Verify in browser if tools available"
       ],
       "priority": 1,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Catálogo e detalhe com filtros de família/aplicação e campos financeiros removidos para vendedor."
     },
     {
       "id": "P4-US-002",
@@ -27,8 +27,8 @@
         "Verify in browser if tools available"
       ],
       "priority": 2,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Lista e detalhe com grossMargin, meta ponderada por família, flag abaixo da meta e RBAC."
     },
     {
       "id": "P4-US-003",
@@ -40,8 +40,8 @@
         "Verify in browser if tools available"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Lista e detalhe com escopo por vendedor e remoção de custo/margem no retorno."
     }
   ]
 }

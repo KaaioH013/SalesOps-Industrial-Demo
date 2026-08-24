@@ -12,6 +12,7 @@ import {
   productFamilies,
   products,
   profiles,
+  quoteItems,
   quotes,
   salesTerritories,
   targets,
@@ -36,6 +37,7 @@ export const FULL_SEED_VOLUMES = {
   orders: 2_500,
   orderItems: 5_000,
   quotes: 350,
+  quoteItems: 700,
   opportunities: 250,
   activities: 700,
 } as const;
@@ -311,6 +313,33 @@ export function generateFullSeedData(options: FullSeedOptions = {}) {
       };
     },
   );
+  const quoteItemRows: (typeof quoteItems.$inferInsert)[] = quoteRows.flatMap(
+    (quote, quoteIndex) => {
+      const totalCents = quote.totalCents ?? 0;
+      const costCents = quote.costCents ?? 0;
+      const firstTotal = Math.floor(totalCents / 2);
+      const firstCost = Math.floor(costCents / 2);
+      return [0, 1].map((itemOffset) => {
+        const itemIndex = quoteIndex * 2 + itemOffset;
+        const product =
+          productRows[(quoteIndex * 2 + itemOffset) % productRows.length]!;
+        return {
+          id: `quote-item-full-${String(itemIndex + 1).padStart(5, "0")}`,
+          organizationId: DEMO_ORGANIZATION_ID,
+          quoteId: quote.id,
+          productId: product.id,
+          quantity: 1,
+          unitPriceCents:
+            itemOffset === 0 ? firstTotal : totalCents - firstTotal,
+          unitCostCents:
+            itemOffset === 0 ? firstCost : costCents - firstCost,
+          discountBps: quote.discountBps ?? 0,
+          totalCents:
+            itemOffset === 0 ? firstTotal : totalCents - firstTotal,
+        };
+      });
+    },
+  );
 
   const stages: readonly OpportunityStage[] = [
     "novo",
@@ -423,6 +452,7 @@ export function generateFullSeedData(options: FullSeedOptions = {}) {
     orders: orderRows,
     orderItems: orderItemRows,
     quotes: quoteRows,
+    quoteItems: quoteItemRows,
     opportunities: opportunityRows,
     activities: activityRows,
     targets: targetRows,
@@ -445,6 +475,7 @@ export async function seedFullDatabase(options: FullSeedOptions = {}) {
     await tx.delete(activities).where(eq(activities.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(orderItems).where(eq(orderItems.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(orders).where(eq(orders.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(quoteItems).where(eq(quoteItems.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(quotes).where(eq(quotes.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(opportunities).where(eq(opportunities.organizationId, DEMO_ORGANIZATION_ID));
     await tx.delete(targets).where(eq(targets.organizationId, DEMO_ORGANIZATION_ID));
@@ -471,6 +502,7 @@ export async function seedFullDatabase(options: FullSeedOptions = {}) {
     await insertBatches(data.customers, (batch) => tx.insert(customers).values(batch));
     await insertBatches(data.contacts, (batch) => tx.insert(contacts).values(batch));
     await insertBatches(data.quotes, (batch) => tx.insert(quotes).values(batch));
+    await insertBatches(data.quoteItems, (batch) => tx.insert(quoteItems).values(batch));
     await insertBatches(data.opportunities, (batch) => tx.insert(opportunities).values(batch));
     await insertBatches(data.activities, (batch) => tx.insert(activities).values(batch));
     await insertBatches(data.orders, (batch) => tx.insert(orders).values(batch));
@@ -479,7 +511,7 @@ export async function seedFullDatabase(options: FullSeedOptions = {}) {
   });
 
   console.log(
-    `Full deterministic seed ${SEED} applied: ${data.territories.length} territories, ${data.productFamilies.length} product families, ${data.products.length} products, ${data.customers.length} customers, ${data.contacts.length} contacts, ${data.orders.length} orders, ${data.orderItems.length} order items, ${data.quotes.length} quotes, ${data.opportunities.length} opportunities, ${data.activities.length} activities, ${data.targets.length} monthly targets`,
+    `Full deterministic seed ${SEED} applied: ${data.territories.length} territories, ${data.productFamilies.length} product families, ${data.products.length} products, ${data.customers.length} customers, ${data.contacts.length} contacts, ${data.orders.length} orders, ${data.orderItems.length} order items, ${data.quotes.length} quotes, ${data.quoteItems.length} quote items, ${data.opportunities.length} opportunities, ${data.activities.length} activities, ${data.targets.length} monthly targets`,
   );
   console.log("Showcase scenarios:");
   console.log(`- Strategic customer at risk: ${SHOWCASE_IDS.strategicCustomerAtRisk}`);
