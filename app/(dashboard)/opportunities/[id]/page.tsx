@@ -1,4 +1,9 @@
-import { EmptyState } from "@/components/ui/empty-state";
+import { notFound } from "next/navigation";
+
+import { getOpportunityDetail } from "@/db/queries/opportunities";
+import { OpportunityDetailView } from "@/features/opportunities/opportunity-detail";
+import { auth } from "@/lib/auth/auth";
+import { canEditOpportunity } from "@/lib/permissions/roles";
 
 type OpportunityDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -7,22 +12,31 @@ type OpportunityDetailPageProps = {
 export default async function OpportunityDetailPage({
   params,
 }: OpportunityDetailPageProps) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return null;
+  }
+
   const { id } = await params;
 
+  const opportunity = await getOpportunityDetail({
+    organizationId: session.user.organizationId,
+    role: session.user.role,
+    userId: session.user.id,
+    id,
+  });
+
+  if (!opportunity) {
+    notFound();
+  }
+
+  const canEdit =
+    canEditOpportunity(session.user.role) ||
+    (session.user.role === "seller" &&
+      opportunity.owner?.id === session.user.id);
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
-          Oportunidade {id}
-        </h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Detalhes da oportunidade comercial.
-        </p>
-      </div>
-      <EmptyState
-        title="Oportunidade não encontrada nos dados de demo"
-        description="As informações de valor, estágio, atividades e propostas vinculadas serão exibidas após a execução do seed do ambiente de demonstração."
-      />
-    </div>
+    <OpportunityDetailView canEdit={canEdit} opportunity={opportunity} />
   );
 }

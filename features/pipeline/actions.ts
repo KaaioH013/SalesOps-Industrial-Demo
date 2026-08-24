@@ -5,10 +5,13 @@ import { revalidatePath } from "next/cache";
 
 import { getDb } from "@/db/client";
 import { auditEvents, opportunities } from "@/db/schema";
+import type { ProfileRole } from "@/db/schema/enums";
 import { auth } from "@/lib/auth/auth";
 import {
   moveOpportunityStageSchema,
+  updateOpportunityNextStepSchema,
   type MoveOpportunityStageInput,
+  type UpdateOpportunityNextStepInput,
 } from "@/lib/validations/opportunities";
 
 export async function moveOpportunityStage(
@@ -65,6 +68,80 @@ export async function moveOpportunityStage(
         fromStage: current.stage,
         toStage: data.stage,
         ...(data.lossReason ? { lossReason: data.lossReason } : {}),
+      },
+      occurredAt,
+    });
+  });
+
+  revalidatePath("/pipeline");
+  revalidatePath(`/opportunities/${data.id}`);
+
+  return { success: true as const };
+}
+
+function opportunityEditConditions(
+  opportunityId: string,
+  organizationId: string,
+  role: ProfileRole,
+  userId: string,
+) {
+  const conditions = [
+    eq(opportunities.id, opportunityId),
+    eq(opportunities.organizationId, organizationId),
+  ];
+
+  if (role === "seller") {
+    conditions.push(eq(opportunities.ownerId, userId));
+  }
+
+  return conditions;
+}
+
+export async function updateOpportunityNextStep(
+  input: UpdateOpportunityNextStepInput,
+) {
+  const data = updateOpportunityNextStepSchema.parse(input);
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Autenticação necessária");
+  }
+
+  const conditions = opportunityEditConditions(
+    data.id,
+    session.user.organizationId,
+    session.user.role,
+    session.user.id,
+  );
+  const current = await getDb().query.opportunities.findFirst({
+    columns: { id: true },
+    where: and(...conditions),
+  });
+
+  if (!current) {
+    throw new Error("Oportunidade não encontrada ou sem permissão");
+  }
+
+  const occurredAt = new Date();
+
+  await getDb().transaction(async (tx) => {
+    await tx
+      .update(opportunities)
+      .set({
+        nextStep: data.nextStep,
+        updatedAt: occurredAt,
+      })
+      .where(and(...conditions));
+
+    await tx.insert(auditEvents).values({
+      id: crypto.randomUUID(),
+      organizationId: session.user.organizationId,
+      actorId: session.user.id,
+      entityType: "opportunity",
+      entityId: data.id,
+      action: "next_step_update",
+      metadata: {
+        nextStep: data.nextStep,
       },
       occurredAt,
     });

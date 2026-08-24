@@ -25,3 +25,12 @@ export const moveOpportunityStageSchema = z
 export type MoveOpportunityStageInput = z.input<
   typeof moveOpportunityStageSchema
 >;
+
+export const updateOpportunityNextStepSchema = z.object({
+  id: z.string().trim().min(1),
+  nextStep: z.string().trim().min(1, "Informe o próximo passo"),
+});
+
+export type UpdateOpportunityNextStepInput = z.input<
+  typeof updateOpportunityNextStepSchema
+>;
