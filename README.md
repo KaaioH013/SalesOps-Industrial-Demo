@@ -23,6 +23,9 @@ cp .env.example .env
 | `CRON_SECRET` | Segredo para rotas cron |
 | `DEMO_PROFILE_SWITCHER` | Habilita troca de perfil demo (`true`/`false`) |
 
+Para executar com um banco local, use `TURSO_DATABASE_URL=file:./local.db`. URLs
+`file:` não exigem `TURSO_AUTH_TOKEN`.
+
 ## Scripts
 
 | Script | Descrição |
