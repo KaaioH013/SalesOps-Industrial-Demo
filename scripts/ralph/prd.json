@@ -1,43 +1,32 @@
 {
   "project": "SalesOps Industrial Demo",
-  "branchName": "ralph/p7-hardening",
-  "description": "P7 — Playwright, RBAC tests, README, polish",
+  "branchName": "ralph/p8-ml",
+  "description": "P8 — Optional offline Python ML export/import",
   "userStories": [
     {
-      "id": "P7-US-001",
-      "title": "Playwright critical path",
-      "description": "As CI, I verify login → dashboard → customer → create activity.",
+      "id": "P8-US-001",
+      "title": "Offline ML training script",
+      "description": "As a developer, I can train an explainable model offline on synthetic data.",
       "acceptanceCriteria": [
-        "tests/e2e/critical-path.spec.ts passes against local app",
-        "Documented in README"
+        "ml/train_repurchase.py + requirements.txt + ml/README.md",
+        "Time-based split when possible",
+        "Exports JSON/CSV for customer_scores",
+        "Never called from Next.js runtime"
       ],
       "priority": 1,
       "passes": false,
       "notes": ""
     },
     {
-      "id": "P7-US-002",
-      "title": "Seller margin denial test",
-      "description": "As security, seller cannot obtain cost/margin via actions/queries.",
+      "id": "P8-US-002",
+      "title": "Import ML scores into Turso",
+      "description": "As a developer, I import offline scores without breaking deterministic layer.",
       "acceptanceCriteria": [
-        "Automated test asserts denial/stripping",
-        "lint typecheck unit tests pass"
+        "Import script documented",
+        "App still works without ML import",
+        "README notes limitations"
       ],
       "priority": 2,
-      "passes": false,
-      "notes": ""
-    },
-    {
-      "id": "P7-US-003",
-      "title": "README deploy checklist complete",
-      "description": "As a reviewer, I can install, seed, test and deploy from README alone.",
-      "acceptanceCriteria": [
-        "Turso setup, env, migrate, seed, test, Vercel checklist",
-        "Demo credentials documented",
-        "Limitations and Supabase deviation documented",
-        "Synthetic data disclaimer"
-      ],
-      "priority": 3,
       "passes": false,
       "notes": ""
     }
