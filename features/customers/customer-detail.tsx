@@ -16,6 +16,9 @@ import { formatDatePtBR } from "@/lib/formatters/date";
 import { formatPercent } from "@/lib/formatters/percent";
 import { cn } from "@/lib/utils";
 
+import { ActivityForm } from "./activity-form";
+import { OpportunityForm } from "./opportunity-form";
+
 export type Customer360View = NonNullable<
   Awaited<ReturnType<typeof getCustomer360>>
 >;
@@ -466,6 +469,7 @@ export function CustomerDetail({ customer, showMargin }: CustomerDetailProps) {
           </SectionCard>
 
           <SectionCard title="Oportunidades">
+            <OpportunityForm customerId={customer.id} />
             <SimpleTable
               emptyMessage="Nenhuma oportunidade registrada para este cliente."
               headers={["Título", "Estágio", "Valor estimado", "Probabilidade", "Previsão"]}
@@ -486,6 +490,7 @@ export function CustomerDetail({ customer, showMargin }: CustomerDetailProps) {
           </SectionCard>
 
           <SectionCard title="Atividades">
+            <ActivityForm customerId={customer.id} />
             <SimpleTable
               emptyMessage="Nenhuma atividade registrada para este cliente."
               headers={["Assunto", "Tipo", "Status", "Agendada para"]}
