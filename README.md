@@ -26,6 +26,32 @@ cp .env.example .env
 Para executar com um banco local, use `TURSO_DATABASE_URL=file:./local.db`. URLs
 `file:` não exigem `TURSO_AUTH_TOKEN`.
 
+Crie o banco local e carregue os dados demonstrativos:
+
+```bash
+TURSO_DATABASE_URL=file:./local.db npm run db:migrate
+TURSO_DATABASE_URL=file:./local.db npm run db:seed
+```
+
+No PowerShell:
+
+```powershell
+$env:TURSO_DATABASE_URL="file:./local.db"
+npm run db:migrate
+npm run db:seed
+```
+
+### Credenciais da demonstração
+
+| Perfil | E-mail | Senha |
+|--------|--------|-------|
+| Administrador | `admin@demo.local` | `DemoAdmin!123` |
+| Gerente | `manager@demo.local` | `DemoManager!123` |
+| Vendedor | `seller@demo.local` | `DemoSeller!123` |
+
+Essas credenciais são públicas e devem ser usadas somente no ambiente
+demonstrativo.
+
 ## Scripts
 
 | Script | Descrição |
