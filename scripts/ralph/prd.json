@@ -1,32 +1,45 @@
 {
   "project": "SalesOps Industrial Demo",
-  "branchName": "ralph/p3-dashboard",
-  "description": "P3 — Executive dashboard with filters and commercial widgets",
+  "branchName": "ralph/p4-commerce",
+  "description": "P4 — Quotes, orders and product catalog",
   "userStories": [
     {
-      "id": "P3-US-001",
-      "title": "Dashboard query aggregations",
-      "description": "As the server, I aggregate KPIs filtered by period, territory, segment, seller.",
+      "id": "P4-US-001",
+      "title": "Products catalog",
+      "description": "As a user, I browse products with family/application filters.",
       "acceptanceCriteria": [
-        "db/queries/dashboard.ts returns DTO for all widgets in design",
-        "Seller scope applied",
-        "typecheck passes"
+        "/products list + detail",
+        "Cost/margin hidden for seller",
+        "Verify in browser if tools available"
       ],
       "priority": 1,
       "passes": false,
       "notes": ""
     },
     {
-      "id": "P3-US-002",
-      "title": "Dashboard UI widgets",
-      "description": "As a coordinator, I see revenue/margin vs target, pipeline, funnel, rankings, alerts and recommended actions.",
+      "id": "P4-US-002",
+      "title": "Quotes list and detail",
+      "description": "As a manager, I review quotes with margin signals vs family target.",
       "acceptanceCriteria": [
-        "All widgets from design §8 dashboard",
-        "Recharts with loading/empty/error",
-        "Short pt-BR helper text per widget",
+        "/quotes table + detail",
+        "grossMargin used; below-target flag",
+        "Seller cannot see cost",
         "Verify in browser if tools available"
       ],
       "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P4-US-003",
+      "title": "Orders list and detail",
+      "description": "As a manager, I review orders and margins with RBAC.",
+      "acceptanceCriteria": [
+        "/orders table + detail",
+        "Seller field stripping",
+        "Verify in browser if tools available"
+      ],
+      "priority": 3,
       "passes": false,
       "notes": ""
     }
