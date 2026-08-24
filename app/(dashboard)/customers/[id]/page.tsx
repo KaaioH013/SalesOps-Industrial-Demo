@@ -1,4 +1,9 @@
-import { EmptyState } from "@/components/ui/empty-state";
+import { notFound } from "next/navigation";
+
+import { getCustomer360 } from "@/db/queries/customers";
+import { CustomerDetail } from "@/features/customers/customer-detail";
+import { auth } from "@/lib/auth/auth";
+import { canViewMargin } from "@/lib/permissions/roles";
 
 type CustomerDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -7,22 +12,29 @@ type CustomerDetailPageProps = {
 export default async function CustomerDetailPage({
   params,
 }: CustomerDetailPageProps) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return null;
+  }
+
   const { id } = await params;
 
+  const customer = await getCustomer360({
+    organizationId: session.user.organizationId,
+    role: session.user.role,
+    userId: session.user.id,
+    customerId: id,
+  });
+
+  if (!customer) {
+    notFound();
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
-          Cliente {id}
-        </h1>
-        <p className="mt-1 text-sm text-slate-600">
-          Visão 360° do cliente selecionado.
-        </p>
-      </div>
-      <EmptyState
-        title="Detalhes do cliente indisponíveis"
-        description="Os dados de contatos, oportunidades e histórico comercial serão carregados após a execução do seed do ambiente de demonstração."
-      />
-    </div>
+    <CustomerDetail
+      customer={customer}
+      showMargin={canViewMargin(session.user.role)}
+    />
   );
 }
