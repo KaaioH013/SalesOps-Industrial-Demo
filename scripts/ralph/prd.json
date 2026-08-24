@@ -1,33 +1,44 @@
 {
   "project": "SalesOps Industrial Demo",
-  "branchName": "ralph/p6-reports-settings",
-  "description": "P6 — Reports CSV and settings",
+  "branchName": "ralph/p7-hardening",
+  "description": "P7 — Playwright, RBAC tests, README, polish",
   "userStories": [
     {
-      "id": "P6-US-001",
-      "title": "Reports and CSV export",
-      "description": "As a manager, I filter reports and export CSV within my permission scope.",
+      "id": "P7-US-001",
+      "title": "Playwright critical path",
+      "description": "As CI, I verify login → dashboard → customer → create activity.",
       "acceptanceCriteria": [
-        "/reports with filters",
-        "Server-side CSV with row limit",
-        "Seller export excludes cost/margin detail",
-        "Verify in browser if tools available"
+        "tests/e2e/critical-path.spec.ts passes against local app",
+        "Documented in README"
       ],
       "priority": 1,
-      "passes": true,
+      "passes": false,
       "notes": ""
     },
     {
-      "id": "P6-US-002",
-      "title": "Settings page",
-      "description": "As admin, I edit targets, alert thresholds and loss reasons.",
+      "id": "P7-US-002",
+      "title": "Seller margin denial test",
+      "description": "As security, seller cannot obtain cost/margin via actions/queries.",
       "acceptanceCriteria": [
-        "/settings with permission gates",
-        "Non-admin read-only or limited",
-        "Verify in browser if tools available"
+        "Automated test asserts denial/stripping",
+        "lint typecheck unit tests pass"
       ],
       "priority": 2,
-      "passes": true,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P7-US-003",
+      "title": "README deploy checklist complete",
+      "description": "As a reviewer, I can install, seed, test and deploy from README alone.",
+      "acceptanceCriteria": [
+        "Turso setup, env, migrate, seed, test, Vercel checklist",
+        "Demo credentials documented",
+        "Limitations and Supabase deviation documented",
+        "Synthetic data disclaimer"
+      ],
+      "priority": 3,
+      "passes": false,
       "notes": ""
     }
   ]
