@@ -60,3 +60,26 @@
 ## 2026-08-24 12:57 - P0 COMPLETE
 - All P0 stories done; chaining to P1 customers
 ---
+
+## 2026-08-24 13:02 - P1-US-001
+- Customer queries RBAC
+- Commit 4dd5726
+---
+
+
+## 2026-08-24 13:04 - P1-US-002
+- Customers table
+- Commit 7da30ba
+---
+
+
+## 2026-08-24 13:05 - P1-US-003
+- Customer 360
+- Commit b728f50
+---
+
+
+## 2026-08-24 13:10 - P1 COMPLETE
+- Chaining to P2 pipeline
+---
+

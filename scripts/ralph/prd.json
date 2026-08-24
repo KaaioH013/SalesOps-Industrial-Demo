@@ -1,30 +1,30 @@
 {
   "project": "SalesOps Industrial Demo",
-  "branchName": "ralph/p1-customers",
-  "description": "P1 — Customers list, 360°, activities and opportunities from customer",
+  "branchName": "ralph/p2-pipeline",
+  "description": "P2 — Pipeline kanban/table and opportunity detail",
   "userStories": [
     {
-      "id": "P1-US-001",
-      "title": "Customer queries with RBAC",
-      "description": "As the server, I filter customers by organization and seller assignment.",
+      "id": "P2-US-001",
+      "title": "Opportunity analytics helpers",
+      "description": "As a developer, I need tested helpers for weighted value, days in stage, staleness risk.",
       "acceptanceCriteria": [
-        "listCustomers and getCustomer360 in db/queries/customers.ts",
-        "Seller only sees assigned customers",
-        "Unit or integration test for seller filter",
-        "typecheck passes"
+        "Unit tests for 14-day attention and 30-day critical thresholds",
+        "Helpers in lib/analytics",
+        "tests pass"
       ],
       "priority": 1,
       "passes": false,
       "notes": ""
     },
     {
-      "id": "P1-US-002",
-      "title": "Customers table UI",
-      "description": "As a manager, I browse customers with search, filters, pagination and column visibility.",
+      "id": "P2-US-002",
+      "title": "Pipeline kanban and table",
+      "description": "As a manager, I manage opportunities in kanban and table views with filters.",
       "acceptanceCriteria": [
-        "TanStack Table on /customers",
-        "Columns: segment, territory, seller, last purchase, revenue, margin (hidden for seller), priority score, status",
-        "Loading empty error states",
+        "/pipeline kanban + table",
+        "Stage move with confirmation for Ganho/Perdido",
+        "Perdido requires loss reason",
+        "Side panel with details",
         "Verify in browser if tools available"
       ],
       "priority": 2,
@@ -32,29 +32,16 @@
       "notes": ""
     },
     {
-      "id": "P1-US-003",
-      "title": "Customer 360 page",
-      "description": "As a seller, I open a customer and see commercial 360 summary.",
+      "id": "P2-US-003",
+      "title": "Opportunity detail page",
+      "description": "As a seller, I open an opportunity and see timeline, risk explanation and next step.",
       "acceptanceCriteria": [
-        "/customers/[id] shows financial summary, contacts, related lists, alerts placeholder",
-        "Seller does not see cost/detailed margin",
+        "/opportunities/[id] complete",
+        "Risk explanation visible",
+        "Edit actions respect roles",
         "Verify in browser if tools available"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
-    },
-    {
-      "id": "P1-US-004",
-      "title": "Create activity and opportunity from customer",
-      "description": "As a manager, I register activity and create opportunity from customer 360.",
-      "acceptanceCriteria": [
-        "Server Actions with Zod validation and role checks",
-        "Audit event written",
-        "UI forms work",
-        "typecheck passes"
-      ],
-      "priority": 4,
       "passes": false,
       "notes": ""
     }
