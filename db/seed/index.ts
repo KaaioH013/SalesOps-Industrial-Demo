@@ -12,13 +12,9 @@ import {
   salesTerritories,
 } from "../schema";
 import { verifyPassword } from "../../lib/auth/password";
-import {
-  DEMO_ORGANIZATION_ID,
-  DEMO_PASSWORDS,
-  DEMO_USER_IDS,
-  SEED,
-} from "./constants";
+import { DEMO_ORGANIZATION_ID, DEMO_PASSWORDS, DEMO_USER_IDS, SEED } from "./constants";
 import { createDemoUsers } from "./demo-users";
+import { seedFullDatabase } from "./full";
 
 const territoryId = "territory-demo-southeast";
 const familyIds = {
@@ -49,39 +45,26 @@ const productIds = [
 
 const day = 24 * 60 * 60 * 1_000;
 const baseDate = new Date("2026-08-24T12:00:00.000Z");
-const daysFromBase = (days: number) =>
-  new Date(baseDate.getTime() + days * day);
+const daysFromBase = (days: number) => new Date(baseDate.getTime() + days * day);
 
-async function seed() {
+async function seedMinimal() {
   const db = getDb();
   const demoUsers = await createDemoUsers();
 
   await db.transaction(async (tx) => {
     // Remove em ordem reversa por causa das FKs restritivas entre dados demo.
-    await tx
-      .delete(activities)
-      .where(eq(activities.organizationId, DEMO_ORGANIZATION_ID));
-    await tx
-      .delete(opportunities)
-      .where(eq(opportunities.organizationId, DEMO_ORGANIZATION_ID));
-    await tx
-      .delete(customers)
-      .where(eq(customers.organizationId, DEMO_ORGANIZATION_ID));
-    await tx
-      .delete(products)
-      .where(eq(products.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(activities).where(eq(activities.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(opportunities).where(eq(opportunities.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(customers).where(eq(customers.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(products).where(eq(products.organizationId, DEMO_ORGANIZATION_ID));
     await tx
       .delete(productFamilies)
       .where(eq(productFamilies.organizationId, DEMO_ORGANIZATION_ID));
     await tx
       .delete(salesTerritories)
       .where(eq(salesTerritories.organizationId, DEMO_ORGANIZATION_ID));
-    await tx
-      .delete(profiles)
-      .where(eq(profiles.organizationId, DEMO_ORGANIZATION_ID));
-    await tx
-      .delete(organizations)
-      .where(eq(organizations.id, DEMO_ORGANIZATION_ID));
+    await tx.delete(profiles).where(eq(profiles.organizationId, DEMO_ORGANIZATION_ID));
+    await tx.delete(organizations).where(eq(organizations.id, DEMO_ORGANIZATION_ID));
 
     await tx.insert(organizations).values({
       id: DEMO_ORGANIZATION_ID,
@@ -526,8 +509,7 @@ async function seed() {
     where: eq(profiles.email, "admin@demo.local"),
   });
   const adminLoginIsValid =
-    admin &&
-    (await verifyPassword(DEMO_PASSWORDS.admin, admin.passwordHash));
+    admin && (await verifyPassword(DEMO_PASSWORDS.admin, admin.passwordHash));
 
   if (!adminLoginIsValid) {
     throw new Error("Demo admin login verification failed");
@@ -539,7 +521,23 @@ async function seed() {
   console.log("Verified login credentials for admin@demo.local");
 }
 
-seed().catch((error: unknown) => {
+async function main() {
+  if (process.argv.includes("--full")) {
+    const maxCustomersValue = process.env.FULL_SEED_MAX_CUSTOMERS;
+    const maxCustomers = maxCustomersValue ? Number.parseInt(maxCustomersValue, 10) : undefined;
+
+    if (maxCustomersValue && (!Number.isInteger(maxCustomers) || (maxCustomers ?? 0) < 1)) {
+      throw new Error("FULL_SEED_MAX_CUSTOMERS must be a positive integer");
+    }
+
+    await seedFullDatabase({ maxCustomers });
+    return;
+  }
+
+  await seedMinimal();
+}
+
+main().catch((error: unknown) => {
   console.error("Database seed failed", error);
   process.exitCode = 1;
 });
