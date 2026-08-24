@@ -1,0 +1,34 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p6-reports-settings",
+  "description": "P6 — Reports CSV and settings",
+  "userStories": [
+    {
+      "id": "P6-US-001",
+      "title": "Reports and CSV export",
+      "description": "As a manager, I filter reports and export CSV within my permission scope.",
+      "acceptanceCriteria": [
+        "/reports with filters",
+        "Server-side CSV with row limit",
+        "Seller export excludes cost/margin detail",
+        "Verify in browser if tools available"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P6-US-002",
+      "title": "Settings page",
+      "description": "As admin, I edit targets, alert thresholds and loss reasons.",
+      "acceptanceCriteria": [
+        "/settings with permission gates",
+        "Non-admin read-only or limited",
+        "Verify in browser if tools available"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

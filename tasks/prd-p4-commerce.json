@@ -1,0 +1,47 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p4-commerce",
+  "description": "P4 — Quotes, orders and product catalog",
+  "userStories": [
+    {
+      "id": "P4-US-001",
+      "title": "Products catalog",
+      "description": "As a user, I browse products with family/application filters.",
+      "acceptanceCriteria": [
+        "/products list + detail",
+        "Cost/margin hidden for seller",
+        "Verify in browser if tools available"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P4-US-002",
+      "title": "Quotes list and detail",
+      "description": "As a manager, I review quotes with margin signals vs family target.",
+      "acceptanceCriteria": [
+        "/quotes table + detail",
+        "grossMargin used; below-target flag",
+        "Seller cannot see cost",
+        "Verify in browser if tools available"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P4-US-003",
+      "title": "Orders list and detail",
+      "description": "As a manager, I review orders and margins with RBAC.",
+      "acceptanceCriteria": [
+        "/orders table + detail",
+        "Seller field stripping",
+        "Verify in browser if tools available"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

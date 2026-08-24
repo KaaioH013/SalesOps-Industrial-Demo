@@ -1,0 +1,49 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p2-pipeline",
+  "description": "P2 — Pipeline kanban/table and opportunity detail",
+  "userStories": [
+    {
+      "id": "P2-US-001",
+      "title": "Opportunity analytics helpers",
+      "description": "As a developer, I need tested helpers for weighted value, days in stage, staleness risk.",
+      "acceptanceCriteria": [
+        "Unit tests for 14-day attention and 30-day critical thresholds",
+        "Helpers in lib/analytics",
+        "tests pass"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P2-US-002",
+      "title": "Pipeline kanban and table",
+      "description": "As a manager, I manage opportunities in kanban and table views with filters.",
+      "acceptanceCriteria": [
+        "/pipeline kanban + table",
+        "Stage move with confirmation for Ganho/Perdido",
+        "Perdido requires loss reason",
+        "Side panel with details",
+        "Verify in browser if tools available"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P2-US-003",
+      "title": "Opportunity detail page",
+      "description": "As a seller, I open an opportunity and see timeline, risk explanation and next step.",
+      "acceptanceCriteria": [
+        "/opportunities/[id] complete",
+        "Risk explanation visible",
+        "Edit actions respect roles",
+        "Verify in browser if tools available"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

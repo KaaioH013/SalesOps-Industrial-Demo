@@ -1,0 +1,62 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p1-customers",
+  "description": "P1 — Customers list, 360°, activities and opportunities from customer",
+  "userStories": [
+    {
+      "id": "P1-US-001",
+      "title": "Customer queries with RBAC",
+      "description": "As the server, I filter customers by organization and seller assignment.",
+      "acceptanceCriteria": [
+        "listCustomers and getCustomer360 in db/queries/customers.ts",
+        "Seller only sees assigned customers",
+        "Unit or integration test for seller filter",
+        "typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P1-US-002",
+      "title": "Customers table UI",
+      "description": "As a manager, I browse customers with search, filters, pagination and column visibility.",
+      "acceptanceCriteria": [
+        "TanStack Table on /customers",
+        "Columns: segment, territory, seller, last purchase, revenue, margin (hidden for seller), priority score, status",
+        "Loading empty error states",
+        "Verify in browser if tools available"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P1-US-003",
+      "title": "Customer 360 page",
+      "description": "As a seller, I open a customer and see commercial 360 summary.",
+      "acceptanceCriteria": [
+        "/customers/[id] shows financial summary, contacts, related lists, alerts placeholder",
+        "Seller does not see cost/detailed margin",
+        "Verify in browser if tools available"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P1-US-004",
+      "title": "Create activity and opportunity from customer",
+      "description": "As a manager, I register activity and create opportunity from customer 360.",
+      "acceptanceCriteria": [
+        "Server Actions with Zod validation and role checks",
+        "Audit event written",
+        "UI forms work",
+        "typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

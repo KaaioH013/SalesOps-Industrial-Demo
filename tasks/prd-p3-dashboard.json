@@ -1,0 +1,34 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p3-dashboard",
+  "description": "P3 — Executive dashboard with filters and commercial widgets",
+  "userStories": [
+    {
+      "id": "P3-US-001",
+      "title": "Dashboard query aggregations",
+      "description": "As the server, I aggregate KPIs filtered by period, territory, segment, seller.",
+      "acceptanceCriteria": [
+        "db/queries/dashboard.ts returns DTO for all widgets in design",
+        "Seller scope applied",
+        "typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P3-US-002",
+      "title": "Dashboard UI widgets",
+      "description": "As a coordinator, I see revenue/margin vs target, pipeline, funnel, rankings, alerts and recommended actions.",
+      "acceptanceCriteria": [
+        "All widgets from design §8 dashboard",
+        "Recharts with loading/empty/error",
+        "Short pt-BR helper text per widget",
+        "Verify in browser if tools available"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

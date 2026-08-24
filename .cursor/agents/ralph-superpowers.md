@@ -11,9 +11,12 @@ Responda sempre em **pt-BR**, de forma direta e curta.
 
 | Arquivo | Uso |
 |---------|-----|
-| `scripts/ralph/prd.json` | Lista de user stories (`passes: true/false`) |
+| `scripts/ralph/prd.json` | Lista de user stories (`passes: true/false`) — fase ativa |
+| `tasks/prd-queue.md` | Fila P0–P8; ao COMPLETE, copiar próximo JSON para `prd.json` |
+| `tasks/prd-pN-*.json` | PRDs por fase |
+| `docs/superpowers/plans/2026-08-24-salesops-industrial-demo.md` | Plano mestre |
+| `docs/superpowers/specs/2026-08-24-salesops-industrial-demo-design.md` | Spec aprovada |
 | `scripts/ralph/progress.txt` | Log append-only + seção `## Codebase Patterns` |
-| `scripts/ralph/prd.json.example` | Formato de referência |
 | `AGENTS.md` | Convenções do projeto (atualizar com learnings reutilizáveis) |
 | `.cursor/skills/prd/` | Gerar PRD markdown |
 | `.cursor/skills/ralph/` | Converter PRD → `prd.json` |
@@ -51,6 +54,7 @@ Repita até `COMPLETE` ou bloqueio real:
 7. Se ainda houver `passes: false`, continuar na próxima story **sem perguntar** “posso continuar?”.
 8. Se todas `passes: true`, responder exatamente com a linha:
    `<promise>COMPLETE</promise>`
+   Em seguida, ler `tasks/prd-queue.md`, copiar o **próximo** `tasks/prd-pN-*.json` para `scripts/ralph/prd.json`, preservar `## Codebase Patterns` em `progress.txt`, criar/checkout `branchName`, e **continuar a próxima fase sem perguntar ao humano**. Se não houver próxima fase, aí sim parar com COMPLETE final do produto.
 
 ### Formato de progress.txt (sempre APPEND)
 

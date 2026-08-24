@@ -1,0 +1,132 @@
+{
+  "project": "SalesOps Industrial Demo",
+  "branchName": "ralph/p0-foundations",
+  "description": "P0 — Scaffold Next.js, Turso/Drizzle, Auth.js, shell, schema, seed",
+  "userStories": [
+    {
+      "id": "P0-US-001",
+      "title": "Scaffold Next.js tooling",
+      "description": "As a developer, I need the Next.js app scaffolded at repo root with TypeScript, Tailwind, ESLint, Prettier, Vitest, Playwright scripts.",
+      "acceptanceCriteria": [
+        "create-next-app at repo root preserving docs/, scripts/, .cursor/",
+        "package.json scripts: dev, build, lint, typecheck, test, test:e2e, db:generate, db:migrate, db:seed",
+        ".env.example with TURSO_DATABASE_URL, TURSO_AUTH_TOKEN, AUTH_SECRET, CRON_SECRET, DEMO_PROFILE_SWITCHER",
+        "npm run typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "See plan Task 1"
+    },
+    {
+      "id": "P0-US-002",
+      "title": "Margin and pipeline pure functions",
+      "description": "As a developer, I need tested pure functions for gross margin and weighted pipeline value.",
+      "acceptanceCriteria": [
+        "grossMargin returns null when revenue is 0",
+        "weightedPipelineValue = estimatedValue * probability",
+        "Vitest unit tests pass"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-003",
+      "title": "pt-BR formatters",
+      "description": "As a user, I want currency, dates and percents in pt-BR/BRL.",
+      "acceptanceCriteria": [
+        "formatBRL, formatDatePtBR, formatPercent implemented",
+        "Unit tests pass"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-004",
+      "title": "Organizations and profiles schema",
+      "description": "As a developer, I need Drizzle + Turso client and organizations/profiles tables.",
+      "acceptanceCriteria": [
+        "getDb() uses @libsql/client + drizzle",
+        "organizations and profiles with role admin|manager|seller",
+        "drizzle-kit generate + migrate script exist",
+        "typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-005",
+      "title": "Auth.js login and RBAC helpers",
+      "description": "As a demo user, I can log in with email/password and routes are protected.",
+      "acceptanceCriteria": [
+        "Auth.js credentials provider",
+        "Login page with RHF+Zod",
+        "middleware protects dashboard",
+        "canViewMargin/requireRole helpers with unit tests",
+        "typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-006",
+      "title": "Dashboard shell and route stubs",
+      "description": "As a user, I see industrial shell, synthetic badge, and navigable stubs for all main routes.",
+      "acceptanceCriteria": [
+        "Sidebar desktop + mobile nav",
+        "Header with user",
+        "Badge Dados demonstrativos e sintéticos",
+        "Stub pages for all main routes without 404",
+        "Verify in browser if tools available"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-007",
+      "title": "Full business schema",
+      "description": "As a developer, I need all domain tables from the design spec.",
+      "acceptanceCriteria": [
+        "All entities from design §6 in Drizzle schema",
+        "Opportunity stages enum complete",
+        "Migration generated",
+        "typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "P0-US-008",
+      "title": "Minimal demo seed",
+      "description": "As a demo user, I can log in with three seeded accounts and see sample data.",
+      "acceptanceCriteria": [
+        "3 demo users with documented passwords in README",
+        "1 org, sample territory/customers/products/opportunities",
+        "npm run db:seed works with Turso or file libsql",
+        "Login works with admin@demo.local"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Needs TURSO_* or file: URL in .env"
+    },
+    {
+      "id": "P0-US-009",
+      "title": "Full deterministic seed batched",
+      "description": "As a developer, I can load full synthetic volumes via batched seed.",
+      "acceptanceCriteria": [
+        "Volumes match design §9 (or batched path documented)",
+        "Fixed faker seed",
+        "Showcase scenarios logged",
+        "README documents npm run db:seed -- --full"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

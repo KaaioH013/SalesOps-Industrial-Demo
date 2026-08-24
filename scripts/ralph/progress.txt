@@ -1,3 +1,62 @@
 ﻿# Ralph Progress Log
 # Append-only learnings from each iteration. Do not delete previous entries.
 
+
+## 2026-08-24 12:33 - P0-US-001
+- Scaffold Next.js 16 + tooling
+- Commit a2ae6a9
+- Learnings: create-next-app fails on mixed-case dir name; use temp folder. next lint removed in Next 16 use eslint .
+---
+
+
+## 2026-08-24 12:35 - P0-US-002
+- grossMargin + weightedPipelineValue + tests
+- Commit cce6fa9
+---
+
+
+## 2026-08-24 12:36 - P0-US-003
+- formatBRL/date/percent
+- Commit ad2a8b4
+---
+
+
+## 2026-08-24 12:39 - P0-US-004
+- Drizzle/Turso client + orgs/profiles
+- Commit cd8c527
+- Pattern: file:./local.db for local libsql
+---
+
+
+## 2026-08-24 12:43 - P0-US-005
+- Auth.js + RBAC + login
+- Commit b268bda
+---
+
+
+## 2026-08-24 12:45 - P0-US-006
+- Shell + stubs
+- Commit 278e7f1
+---
+
+
+## 2026-08-24 12:50 - P0-US-007
+- Full schema
+- Commit f2c42a8
+---
+
+
+## 2026-08-24 12:53 - P0-US-008
+- Minimal seed + demo users
+- Commit c948fbd
+---
+
+
+## Codebase Patterns
+- Next.js 16: lint via `eslint .` (not next lint)
+- Local DB: TURSO_DATABASE_URL=file:./local.db
+- create-next-app: use temp folder if root name has mixed case
+
+## 2026-08-24 12:57 - P0 COMPLETE
+- All P0 stories done; chaining to P1 customers
+---
