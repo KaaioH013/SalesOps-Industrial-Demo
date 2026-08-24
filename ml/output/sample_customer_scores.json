@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "organizationId": "org-demo-industrial",
+  "calculatedAt": "2026-08-24T12:00:00.000Z",
+  "model": {
+    "name": "logistic_regression",
+    "metrics": {
+      "split": "time_based_feature_cutoff",
+      "feature_cutoff": "2025-01-01T00:00:00+00:00",
+      "repurchase_window_days": 90,
+      "note": "Sample file for import testing without running Python"
+    }
+  },
+  "scores": [
+    {
+      "customerId": "customer-demo-aco-forte",
+      "repurchaseScore": 78,
+      "inactivityRiskScore": 28,
+      "potentialScore": 82,
+      "priorityScore": 63,
+      "explanations": {
+        "source": "ml_offline",
+        "model": "logistic_regression",
+        "repurchaseProbability": 0.78,
+        "features": {
+          "daysSinceLastPurchase": 25,
+          "purchaseCount": 5,
+          "revenueTotalCents": 12190000,
+          "avgIntervalDays": 98.5
+        },
+        "limitations": [
+          "Demonstration model trained on synthetic or exported CSV data.",
+          "Not validated for production decisions."
+        ]
+      }
+    },
+    {
+      "customerId": "customer-demo-alimentos-serra",
+      "repurchaseScore": 65,
+      "inactivityRiskScore": 42,
+      "potentialScore": 58,
+      "priorityScore": 55,
+      "explanations": {
+        "source": "ml_offline",
+        "model": "logistic_regression",
+        "repurchaseProbability": 0.65,
+        "features": {
+          "daysSinceLastPurchase": 48,
+          "purchaseCount": 4,
+          "revenueTotalCents": 4310000,
+          "avgIntervalDays": 112.0
+        },
+        "limitations": [
+          "Demonstration model trained on synthetic or exported CSV data.",
+          "Not validated for production decisions."
+        ]
+      }
+    },
+    {
+      "customerId": "customer-demo-autopecas-brasil",
+      "repurchaseScore": 84,
+      "inactivityRiskScore": 18,
+      "potentialScore": 91,
+      "priorityScore": 68,
+      "explanations": {
+        "source": "ml_offline",
+        "model": "logistic_regression",
+        "repurchaseProbability": 0.84,
+        "features": {
+          "daysSinceLastPurchase": 12,
+          "purchaseCount": 5,
+          "revenueTotalCents": 20380000,
+          "avgIntervalDays": 87.2
+        },
+        "limitations": [
+          "Demonstration model trained on synthetic or exported CSV data.",
+          "Not validated for production decisions."
+        ]
+      }
+    }
+  ]
+}
