@@ -60,24 +60,24 @@ function attainmentTone(bps: number | null): Tone {
 }
 
 const toneBar: Record<Tone, string> = {
-  neutral: "bg-slate-700",
-  positive: "bg-green-700",
-  attention: "bg-amber-600",
-  risk: "bg-red-700",
+  neutral: "bg-ink-muted",
+  positive: "bg-positive",
+  attention: "bg-attention",
+  risk: "bg-risk",
 };
 
 const toneText: Record<Tone, string> = {
-  neutral: "text-slate-600",
-  positive: "text-green-800",
-  attention: "text-amber-800",
-  risk: "text-red-800",
+  neutral: "text-ink-muted",
+  positive: "text-positive",
+  attention: "text-attention",
+  risk: "text-risk",
 };
 
 const toneAccent: Record<Tone, string> = {
-  neutral: "bg-blue-950",
-  positive: "bg-green-700",
-  attention: "bg-amber-600",
-  risk: "bg-red-700",
+  neutral: "bg-primary",
+  positive: "bg-positive",
+  attention: "bg-attention",
+  risk: "bg-risk",
 };
 
 function KpiCard({
@@ -100,24 +100,22 @@ function KpiCard({
       : Math.min(100, Math.max(4, Math.round(attainmentBps / 100)));
 
   return (
-    <article className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+    <article className="relative overflow-hidden border border-border bg-paper-raised">
       <div
         aria-hidden="true"
-        className={cn("absolute inset-y-0 left-0 w-1.5", toneAccent[tone])}
+        className={cn("absolute inset-y-0 left-0 w-1", toneAccent[tone])}
       />
       <div className="p-4 pl-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
-              {title}
-            </p>
-            <p className="mt-1.5 text-2xl font-semibold tracking-tight text-slate-950 tabular-nums">
+            <p className="so-label-muted">{title}</p>
+            <p className="mt-1.5 text-2xl font-semibold tracking-tight text-ink tabular-nums">
               {value}
             </p>
           </div>
           <span
             aria-hidden="true"
-            className="rounded-md bg-slate-100 p-2 text-slate-600"
+            className="border border-border bg-paper p-2 text-ink-muted"
           >
             <Icon className="h-4 w-4" />
           </span>
@@ -125,22 +123,22 @@ function KpiCard({
         {attainmentBps != null ? (
           <div className="mt-3">
             <div className="mb-1 flex items-center justify-between gap-2 text-xs">
-              <span className={cn("font-semibold", toneText[tone])}>
+              <span className={cn("font-semibold tabular-nums", toneText[tone])}>
                 {percent(attainmentBps)} da meta
               </span>
             </div>
             <div
               aria-hidden="true"
-              className="h-2.5 overflow-hidden rounded bg-slate-100"
+              className="h-2 overflow-hidden bg-paper"
             >
               <div
-                className={cn("h-full rounded", toneBar[tone])}
+                className={cn("h-full", toneBar[tone])}
                 style={{ width: `${width}%` }}
               />
             </div>
           </div>
         ) : null}
-        <p className="mt-2 text-xs leading-5 text-slate-500">{detail}</p>
+        <p className="mt-2 text-xs leading-5 text-ink-muted">{detail}</p>
       </div>
     </article>
   );
@@ -159,14 +157,13 @@ function Widget({
 }) {
   return (
     <section
-      className={cn(
-        "rounded-md border border-slate-200 bg-white p-5",
-        className,
-      )}
+      className={cn("border border-border bg-paper-raised p-5", className)}
     >
-      <header className="border-b border-slate-100 pb-3">
-        <h2 className="text-base font-semibold text-slate-900">{title}</h2>
-        <p className="mt-1 text-xs leading-5 text-slate-500">{helper}</p>
+      <header className="border-b border-border pb-3">
+        <h2 className="text-base font-semibold tracking-tight text-ink">
+          {title}
+        </h2>
+        <p className="mt-1 text-xs leading-5 text-ink-muted">{helper}</p>
       </header>
       <div className="mt-5">{children}</div>
     </section>
@@ -182,7 +179,7 @@ function RankingList({
 
   if (rows.length === 0) {
     return (
-      <p className="py-12 text-center text-sm text-slate-500">
+      <p className="py-12 text-center text-sm text-ink-muted">
         Sem dados para este filtro.
       </p>
     );
@@ -193,28 +190,25 @@ function RankingList({
       {rows.slice(0, 5).map((row, index) => (
         <li key={row.id}>
           <div className="mb-1.5 flex items-center justify-between gap-3 text-sm">
-            <span className="truncate font-medium text-slate-700">
-              <span className="mr-1 tabular-nums text-slate-400">
-                {index + 1}.
+            <span className="truncate font-medium text-ink">
+              <span className="mr-1 font-mono text-[11px] tabular-nums text-ink-muted">
+                {String(index + 1).padStart(2, "0")}
               </span>
               {row.name}
             </span>
-            <span className="shrink-0 font-semibold tabular-nums text-slate-900">
+            <span className="shrink-0 font-semibold tabular-nums text-ink">
               {money(row.revenueCents)}
             </span>
           </div>
-          <div
-            aria-hidden="true"
-            className="h-1.5 overflow-hidden rounded-sm bg-slate-100"
-          >
+          <div aria-hidden="true" className="h-1.5 overflow-hidden bg-paper">
             <div
-              className="h-full rounded-sm bg-blue-950"
+              className="h-full bg-primary"
               style={{
                 width: `${max > 0 ? Math.max(3, (row.revenueCents / max) * 100) : 0}%`,
               }}
             />
           </div>
-          <p className="mt-1 text-[11px] text-slate-400">
+          <p className="mt-1 font-mono text-[10px] uppercase tracking-wide text-ink-muted">
             {integer.format(row.orders)} pedido(s)
           </p>
         </li>

@@ -22,7 +22,7 @@ const PERIODS = [
 ] as const;
 
 const selectClassName =
-  "h-9 w-full min-w-0 cursor-pointer rounded border border-slate-300 bg-white px-2.5 text-sm text-slate-800 outline-none focus-visible:border-blue-950 focus-visible:ring-2 focus-visible:ring-blue-950/25";
+  "h-9 w-full min-w-0 cursor-pointer border border-border bg-paper-raised px-2.5 text-sm text-ink outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20";
 
 function resolvePeriod(value: string | undefined) {
   const selected = PERIODS.find((period) => period.value === value) ?? PERIODS[2];
@@ -74,24 +74,20 @@ export default async function DashboardPage({
 
   return (
     <div className="space-y-5">
-      <div className="relative overflow-hidden rounded-lg border border-slate-200 bg-white">
+      <div className="relative overflow-hidden border border-border bg-paper-raised">
         <div
           aria-hidden="true"
-          className="absolute inset-y-0 left-0 w-1.5 bg-blue-950"
+          className="absolute inset-y-0 left-0 w-1 bg-primary"
         />
         <div className="flex flex-col gap-4 p-4 pl-5 sm:flex-row sm:items-end sm:justify-between sm:p-5 sm:pl-6">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-blue-950">
-              Inteligência comercial
-            </p>
-            <h1 className="mt-1 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">
+            <p className="so-label">Inteligência comercial</p>
+            <h1 className="mt-1 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
               Dashboard executivo
             </h1>
-            <p className="mt-1 max-w-xl text-sm text-slate-600">
+            <p className="mt-1 max-w-xl text-sm text-ink-muted">
               Recorte:{" "}
-              <strong className="font-semibold text-slate-900">
-                {period.label}
-              </strong>
+              <strong className="font-semibold text-ink">{period.label}</strong>
               . Filtre e priorize ações do dia.
             </p>
           </div>
@@ -100,7 +96,7 @@ export default async function DashboardPage({
             className="flex w-full flex-wrap items-end gap-2 sm:w-auto sm:justify-end"
             method="get"
           >
-            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+            <label className="so-label-muted grid min-w-[7.5rem] flex-1 gap-1 sm:flex-none">
               Período
               <select
                 className={selectClassName}
@@ -114,7 +110,7 @@ export default async function DashboardPage({
                 ))}
               </select>
             </label>
-            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+            <label className="so-label-muted grid min-w-[7.5rem] flex-1 gap-1 sm:flex-none">
               Território
               <select
                 className={selectClassName}
@@ -129,7 +125,7 @@ export default async function DashboardPage({
                 ))}
               </select>
             </label>
-            <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+            <label className="so-label-muted grid min-w-[7.5rem] flex-1 gap-1 sm:flex-none">
               Segmento
               <select
                 className={selectClassName}
@@ -145,7 +141,7 @@ export default async function DashboardPage({
               </select>
             </label>
             {session.user.role !== "seller" ? (
-              <label className="grid min-w-[7.5rem] flex-1 gap-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:flex-none">
+              <label className="so-label-muted grid min-w-[7.5rem] flex-1 gap-1 sm:flex-none">
                 Vendedor
                 <select
                   className={selectClassName}
@@ -162,7 +158,7 @@ export default async function DashboardPage({
               </label>
             ) : null}
             <button
-              className="inline-flex h-9 cursor-pointer items-center justify-center rounded bg-blue-950 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
+              className="so-btn so-btn-primary h-9 min-h-9 px-4"
               type="submit"
             >
               Aplicar

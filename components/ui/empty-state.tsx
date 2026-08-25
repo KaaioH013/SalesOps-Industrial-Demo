@@ -5,11 +5,11 @@ type EmptyStateProps = {
 
 export function EmptyState({ title, description }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+    <div className="flex flex-col items-center justify-center border border-dashed border-border bg-paper-raised px-6 py-16 text-center">
+      <div className="mb-4 flex h-12 w-12 items-center justify-center border border-border bg-paper">
         <svg
           aria-hidden="true"
-          className="h-6 w-6 text-slate-400"
+          className="h-6 w-6 text-ink-muted"
           fill="none"
           stroke="currentColor"
           strokeWidth={1.5}
@@ -22,8 +22,8 @@ export function EmptyState({ title, description }: EmptyStateProps) {
           />
         </svg>
       </div>
-      <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
-      <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
+      <h2 className="text-lg font-semibold tracking-tight text-ink">{title}</h2>
+      <p className="mt-2 max-w-md text-sm leading-6 text-ink-muted">
         {description ??
           "Os dados aparecerão aqui após a execução do seed do ambiente de demonstração."}
       </p>

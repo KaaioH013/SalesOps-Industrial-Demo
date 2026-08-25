@@ -1,21 +1,212 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f1f5f9;
-  --foreground: #0f172a;
+  --background: #f4f4f0;
+  --foreground: #0c1222;
+  --paper: #f4f4f0;
+  --paper-raised: #ffffff;
+  --ink: #0c1222;
+  --ink-muted: #4a5568;
   --primary: #172554;
+  --primary-hover: #1e3a8a;
+  --border: #d4d4cc;
+  --border-strong: #172554;
+  --positive: #166534;
+  --attention: #b45309;
+  --risk: #b91c1c;
+  --sidebar: #172554;
+  --sidebar-muted: #93c5fd;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
   --color-primary: var(--primary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary-hover: var(--primary-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-positive: var(--positive);
+  --color-attention: var(--attention);
+  --color-risk: var(--risk);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-mono: var(--font-ibm-plex-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
+}
+
+/* Industrial panel — 1px border, square corners */
+.so-panel {
+  border: 1px solid var(--border);
+  background: var(--paper-raised);
+}
+
+.so-panel-ink {
+  border: 1px solid color-mix(in srgb, white 18%, transparent);
+  background: color-mix(in srgb, #020617 55%, transparent);
+}
+
+.so-label {
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.so-label-muted {
+  font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.so-btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    transform 150ms ease;
+}
+
+.so-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.so-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.so-btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.so-btn-primary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.so-btn-ghost {
+  border-color: color-mix(in srgb, white 35%, transparent);
+  background: transparent;
+  color: #fff;
+}
+
+.so-btn-ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, white 10%, transparent);
+}
+
+.so-btn-ghost:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.so-btn-solid-light {
+  background: #fff;
+  color: var(--primary);
+}
+
+.so-btn-solid-light:hover:not(:disabled) {
+  background: #eff6ff;
+}
+
+.so-btn-solid-light:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.so-input {
+  min-height: 2.75rem;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--paper-raised);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.so-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.so-input[aria-invalid="true"] {
+  border-color: var(--risk);
+}
+
+.tabular-data {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle paper grain */
+.so-grain::before {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes so-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.so-enter {
+  animation: so-fade-up 0.55s ease both;
+}
+
+.so-enter-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.so-enter-delay-2 {
+  animation-delay: 0.16s;
+}
+
+.so-enter-delay-3 {
+  animation-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .so-enter,
+  .so-enter-delay-1,
+  .so-enter-delay-2,
+  .so-enter-delay-3 {
+    animation: none;
+  }
+
+  .so-btn:active:not(:disabled) {
+    transform: none;
+  }
 }

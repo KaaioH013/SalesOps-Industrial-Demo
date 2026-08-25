@@ -38,7 +38,10 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Navegação principal" className="flex flex-1 flex-col gap-1 p-3">
+    <nav
+      aria-label="Navegação principal"
+      className="flex flex-1 flex-col gap-0.5 p-2"
+    >
       {navItems.map(({ href, label, icon: Icon }) => {
         const isActive =
           pathname === href ||
@@ -50,12 +53,18 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             href={href}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
+              "relative flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors",
               isActive
-                ? "bg-blue-950 text-white"
-                : "text-slate-300 hover:bg-slate-800 hover:text-white",
+                ? "bg-white/10 text-white"
+                : "text-slate-300 hover:bg-white/5 hover:text-white",
             )}
           >
+            {isActive ? (
+              <span
+                aria-hidden
+                className="absolute inset-y-0 left-0 w-0.5 bg-blue-300"
+              />
+            ) : null}
             <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
             {label}
           </Link>
@@ -65,39 +74,49 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+function BrandBlock({ compact }: { compact?: boolean }) {
+  return (
+    <div>
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-sidebar-muted">
+        SalesOps
+      </p>
+      <p
+        className={cn(
+          "mt-1 font-semibold tracking-tight text-white",
+          compact ? "text-base" : "text-lg",
+        )}
+      >
+        Industrial
+      </p>
+    </div>
+  );
+}
+
 export function AppSidebar({ mobileOpen, onMobileClose }: AppSidebarProps) {
   return (
     <>
-      <aside className="hidden w-64 shrink-0 flex-col bg-blue-950 lg:flex">
-        <div className="border-b border-blue-900 px-5 py-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-blue-300">
-            SalesOps
-          </p>
-          <p className="mt-1 text-lg font-semibold text-white">Industrial</p>
+      <aside className="hidden w-64 shrink-0 flex-col bg-sidebar lg:flex">
+        <div className="border-b border-white/10 px-5 py-5">
+          <BrandBlock />
         </div>
         <NavLinks />
       </aside>
 
-      {mobileOpen && (
+      {mobileOpen ? (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button
             type="button"
             aria-label="Fechar menu"
-            className="absolute inset-0 bg-slate-950/50"
+            className="absolute inset-0 bg-ink/50"
             onClick={onMobileClose}
           />
-          <aside className="relative flex h-full w-72 max-w-[85vw] flex-col bg-blue-950 shadow-xl">
-            <div className="flex items-center justify-between border-b border-blue-900 px-5 py-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-blue-300">
-                  SalesOps
-                </p>
-                <p className="text-base font-semibold text-white">Industrial</p>
-              </div>
+          <aside className="relative flex h-full w-72 max-w-[85vw] flex-col bg-sidebar shadow-xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <BrandBlock compact />
               <button
                 type="button"
                 aria-label="Fechar menu de navegação"
-                className="rounded-md p-2 text-slate-300 hover:bg-slate-800 hover:text-white"
+                className="p-2 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
                 onClick={onMobileClose}
               >
                 <X className="h-5 w-5" />
@@ -106,7 +125,7 @@ export function AppSidebar({ mobileOpen, onMobileClose }: AppSidebarProps) {
             <NavLinks onNavigate={onMobileClose} />
           </aside>
         </div>
-      )}
+      ) : null}
     </>
   );
 }

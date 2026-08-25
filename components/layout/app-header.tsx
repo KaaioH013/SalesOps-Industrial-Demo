@@ -9,21 +9,19 @@ type AppHeaderProps = {
 
 export function AppHeader({ userName, onMenuClick }: AppHeaderProps) {
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-6">
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-paper-raised px-4 lg:px-6">
       <div className="flex items-center gap-3">
         <button
           type="button"
           aria-label="Abrir menu de navegação"
-          className="cursor-pointer rounded-md p-2 text-slate-600 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950 lg:hidden"
+          className="cursor-pointer p-2 text-ink-muted transition-colors hover:bg-paper hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
           onClick={onMenuClick}
         >
           <Menu className="h-5 w-5" />
         </button>
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-950">
-            SalesOps
-          </p>
-          <p className="text-sm font-semibold text-slate-900">
+          <p className="so-label">SalesOps</p>
+          <p className="text-sm font-semibold tracking-tight text-ink">
             Industrial Demo
           </p>
         </div>
@@ -31,14 +29,16 @@ export function AppHeader({ userName, onMenuClick }: AppHeaderProps) {
 
       <div className="flex items-center gap-3">
         <div className="hidden text-right sm:block">
-          <p className="text-xs text-slate-500">Usuário</p>
-          <p className="text-sm font-medium text-slate-900">
+          <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+            Usuário
+          </p>
+          <p className="text-sm font-medium text-ink">
             {userName ?? "Usuário demo"}
           </p>
         </div>
         <div
           aria-hidden="true"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-950 text-sm font-semibold text-white"
+          className="flex h-9 w-9 items-center justify-center bg-primary font-mono text-sm font-semibold text-white"
         >
           {(userName ?? "U").charAt(0).toUpperCase()}
         </div>

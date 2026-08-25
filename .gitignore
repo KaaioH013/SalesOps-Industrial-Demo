@@ -64,3 +64,4 @@ __pycache__/
 .cursor/skills/slides/
 .cursor/skills/ui-styling/
 
+.env*

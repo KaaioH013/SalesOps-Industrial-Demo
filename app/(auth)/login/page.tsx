@@ -57,127 +57,145 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-slate-100 text-slate-950">
-      <div className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
+    <main className="relative flex min-h-dvh flex-col bg-paper text-ink">
+      <div aria-hidden className="so-grain pointer-events-none absolute inset-0" />
+
+      <div className="relative z-10 border-b border-border bg-paper-raised">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
           <Link
-            className="text-sm font-semibold text-blue-950 hover:underline"
+            className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
             href="/"
           >
             ← Voltar à landing
           </Link>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
             Demo pública
           </span>
         </div>
       </div>
 
-      <div className="flex flex-1 items-center justify-center px-4 py-10">
-        <section
-          aria-labelledby="login-title"
-          className="w-full max-w-md border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <div className="mb-6">
-            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-950">
+      <div className="relative z-10 mx-auto grid w-full max-w-5xl flex-1 lg:grid-cols-[0.95fr_1.05fr]">
+        <aside className="hidden border-r border-border bg-primary p-8 text-white lg:flex lg:flex-col lg:justify-between">
+          <div>
+            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-blue-200">
               SalesOps Industrial
             </p>
-            <h1
-              id="login-title"
-              className="text-2xl font-semibold tracking-tight"
-            >
-              Entrar na demo
+            <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight">
+              Acesso controlado à demo
             </h1>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Sem cadastro. Use apenas as contas seed abaixo.
+            <p className="mt-4 max-w-sm text-sm leading-6 text-blue-100/90">
+              Sem cadastro. Autenticação só com contas seed da allowlist.
             </p>
           </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-blue-200/80">
+            AUTH / CREDENTIALS · RATE LIMITED
+          </p>
+        </aside>
 
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-          >
-            <div>
-              <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
-                E-mail
-              </label>
-              <input
-                id="email"
-                type="email"
-                autoComplete="username"
-                aria-invalid={Boolean(errors.email)}
-                className="min-h-11 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-blue-950 focus:ring-2 focus:ring-blue-950/15"
-                {...register("email")}
-              />
-              {errors.email ? (
-                <p className="mt-1 text-xs text-red-700">{errors.email.message}</p>
-              ) : null}
+        <section
+          aria-labelledby="login-title"
+          className="flex flex-col justify-center px-4 py-10 sm:px-8 lg:px-12"
+        >
+          <div className="w-full max-w-md border border-border bg-paper-raised p-8">
+            <div className="mb-6 lg:hidden">
+              <p className="so-label">SalesOps Industrial</p>
             </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="mb-1.5 block text-sm font-medium"
-              >
-                Senha
-              </label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                aria-invalid={Boolean(errors.password)}
-                className="min-h-11 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-blue-950 focus:ring-2 focus:ring-blue-950/15"
-                {...register("password")}
-              />
-              {errors.password ? (
-                <p className="mt-1 text-xs text-red-700">
-                  {errors.password.message}
+            <h2
+              id="login-title"
+              className="text-2xl font-semibold tracking-tight text-ink"
+            >
+              Entrar na demo
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-ink-muted">
+              Use apenas as contas seed abaixo.
+            </p>
+
+            <form
+              className="mt-6 space-y-4"
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+            >
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-1.5 block text-sm font-medium text-ink"
+                >
+                  E-mail
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="username"
+                  aria-invalid={Boolean(errors.email)}
+                  className="so-input"
+                  {...register("email")}
+                />
+                {errors.email ? (
+                  <p className="mt-1 text-xs text-risk">{errors.email.message}</p>
+                ) : null}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="mb-1.5 block text-sm font-medium text-ink"
+                >
+                  Senha
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  aria-invalid={Boolean(errors.password)}
+                  className="so-input"
+                  {...register("password")}
+                />
+                {errors.password ? (
+                  <p className="mt-1 text-xs text-risk">
+                    {errors.password.message}
+                  </p>
+                ) : null}
+              </div>
+
+              {authenticationError ? (
+                <p className="border border-risk/30 bg-red-50 px-3 py-2 text-sm text-risk">
+                  {authenticationError}
                 </p>
               ) : null}
-            </div>
 
-            {authenticationError ? (
-              <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
-                {authenticationError}
-              </p>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="so-btn so-btn-primary w-full disabled:opacity-60"
+              >
+                {isSubmitting ? "Entrando…" : "Entrar"}
+              </button>
+            </form>
+
+            {isDemoProfileSwitcherEnabled() ? (
+              <div className="mt-8 border-t border-border pt-5">
+                <p className="so-label-muted">Atalhos demo</p>
+                <ul className="mt-3 divide-y divide-border border border-border">
+                  {DEMO_CREDENTIALS.map((cred) => (
+                    <li key={cred.email}>
+                      <button
+                        type="button"
+                        className="flex w-full cursor-pointer flex-col px-3 py-2.5 text-left text-xs transition-colors hover:bg-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary"
+                        onClick={() => {
+                          setValue("email", cred.email);
+                          setValue("password", cred.password);
+                        }}
+                      >
+                        <span className="font-semibold text-ink">{cred.role}</span>
+                        <span className="font-mono text-ink-muted">
+                          {cred.email}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center rounded-md bg-blue-950 text-sm font-semibold text-white transition-colors hover:bg-blue-900 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
-            >
-              {isSubmitting ? "Entrando…" : "Entrar"}
-            </button>
-          </form>
-
-          {isDemoProfileSwitcherEnabled() ? (
-            <div className="mt-8 border-t border-slate-100 pt-5">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Atalhos demo
-              </p>
-              <ul className="mt-3 space-y-2">
-                {DEMO_CREDENTIALS.map((cred) => (
-                  <li key={cred.email}>
-                    <button
-                      type="button"
-                      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 px-3 py-2 text-left text-xs transition-colors hover:border-blue-950/40 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
-                      onClick={() => {
-                        setValue("email", cred.email);
-                        setValue("password", cred.password);
-                      }}
-                    >
-                      <span className="font-semibold text-slate-900">
-                        {cred.role}
-                      </span>
-                      <span className="font-mono text-slate-600">
-                        {cred.email}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+          </div>
         </section>
       </div>
     </main>

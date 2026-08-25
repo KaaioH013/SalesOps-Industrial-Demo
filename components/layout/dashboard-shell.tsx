@@ -15,7 +15,7 @@ export function DashboardShell({ userName, children }: DashboardShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-slate-100">
+    <div className="flex min-h-dvh bg-paper">
       <AppSidebar
         mobileOpen={mobileOpen}
         onMobileClose={() => setMobileOpen(false)}
