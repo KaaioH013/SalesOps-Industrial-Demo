@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import { getDb } from "@/db/client";
 import {
   auditEvents,
+  profiles,
+  salesTerritories,
   targets,
 } from "@/db/schema";
 import {
@@ -22,7 +24,7 @@ import {
 async function requireSession() {
   const session = await auth();
   if (!session?.user) {
-    throw new Error("Autenticação necessária");
+    throw new Error("Não autorizado");
   }
   return session.user;
 }
@@ -30,7 +32,7 @@ async function requireSession() {
 async function requireAdmin() {
   const user = await requireSession();
   if (user.role !== "admin") {
-    throw new Error("Permissão insuficiente");
+    throw new Error("Não autorizado");
   }
   return user;
 }
@@ -50,7 +52,33 @@ export async function upsertTargetAction(input: unknown) {
         ),
       });
       if (!existing) {
-        throw new Error("Meta não encontrada");
+        throw new Error("Não encontrado");
+      }
+    }
+
+    if (data.sellerId) {
+      const seller = await tx.query.profiles.findFirst({
+        columns: { id: true },
+        where: and(
+          eq(profiles.id, data.sellerId),
+          eq(profiles.organizationId, user.organizationId),
+        ),
+      });
+      if (!seller) {
+        throw new Error("Não encontrado");
+      }
+    }
+
+    if (data.territoryId) {
+      const territory = await tx.query.salesTerritories.findFirst({
+        columns: { id: true },
+        where: and(
+          eq(salesTerritories.id, data.territoryId),
+          eq(salesTerritories.organizationId, user.organizationId),
+        ),
+      });
+      if (!territory) {
+        throw new Error("Não encontrado");
       }
     }
 
@@ -110,7 +138,7 @@ export async function deleteTargetAction(input: unknown) {
       ),
     });
     if (!existing) {
-      throw new Error("Meta não encontrada");
+      throw new Error("Não encontrado");
     }
 
     await tx

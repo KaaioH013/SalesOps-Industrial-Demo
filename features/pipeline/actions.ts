@@ -21,7 +21,7 @@ export async function moveOpportunityStage(
   const session = await auth();
 
   if (!session?.user) {
-    throw new Error("Autenticação necessária");
+    throw new Error("Não autorizado");
   }
 
   const conditions = [
@@ -39,7 +39,7 @@ export async function moveOpportunityStage(
   });
 
   if (!current) {
-    throw new Error("Oportunidade não encontrada ou sem permissão");
+    throw new Error("Não encontrado");
   }
 
   const occurredAt = new Date();
@@ -104,7 +104,7 @@ export async function updateOpportunityNextStep(
   const session = await auth();
 
   if (!session?.user) {
-    throw new Error("Autenticação necessária");
+    throw new Error("Não autorizado");
   }
 
   const conditions = opportunityEditConditions(
@@ -119,7 +119,7 @@ export async function updateOpportunityNextStep(
   });
 
   if (!current) {
-    throw new Error("Oportunidade não encontrada ou sem permissão");
+    throw new Error("Não encontrado");
   }
 
   const occurredAt = new Date();

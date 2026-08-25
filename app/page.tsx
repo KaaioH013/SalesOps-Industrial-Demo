@@ -9,12 +9,15 @@ import {
   Workflow,
 } from "lucide-react";
 
-import { DEMO_CREDENTIALS } from "@/lib/security/demo-allowlist";
+import {
+  DEMO_CREDENTIALS,
+  isDemoProfileSwitcherEnabled,
+} from "@/lib/security/demo-allowlist";
 
 export const metadata = {
   title: "SalesOps Industrial Demo — Case de portfólio B2B",
   description:
-    "Demo pública de Sales Operations para distribuidora industrial B2B. Dados sintéticos, stack Next.js + Turso + Auth.js. Credenciais demo na landing.",
+    "Demo pública de Sales Operations para distribuidora industrial B2B. Dados sintéticos, stack Next.js + Turso + Auth.js.",
 };
 
 const stack = [
@@ -215,51 +218,55 @@ export default function LandingPage() {
                 Como entrar
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                Não há auto-cadastro. Somente estas contas seed autenticam. Use
-                qualquer uma — o Admin é o melhor para o tour completo.
+                Não há auto-cadastro. Somente contas seed da allowlist autenticam.
+                {isDemoProfileSwitcherEnabled()
+                  ? " Use o Admin para o tour completo."
+                  : " Credenciais de demonstração ficam no README do projeto."}
               </p>
             </div>
           </div>
 
-          <div className="mt-8 overflow-x-auto border border-slate-200 bg-white">
-            <table className="w-full min-w-[36rem] text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-                <tr>
-                  <th className="px-4 py-3 font-semibold" scope="col">
-                    Papel
-                  </th>
-                  <th className="px-4 py-3 font-semibold" scope="col">
-                    E-mail
-                  </th>
-                  <th className="px-4 py-3 font-semibold" scope="col">
-                    Senha
-                  </th>
-                  <th className="px-4 py-3 font-semibold" scope="col">
-                    Uso
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {DEMO_CREDENTIALS.map((row) => (
-                  <tr
-                    className="border-b border-slate-100 last:border-0"
-                    key={row.email}
-                  >
-                    <td className="px-4 py-3 font-medium text-slate-900">
-                      {row.role}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs text-slate-800">
-                      {row.email}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs text-slate-800">
-                      {row.password}
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">{row.label}</td>
+          {isDemoProfileSwitcherEnabled() ? (
+            <div className="mt-8 overflow-x-auto border border-slate-200 bg-white">
+              <table className="w-full min-w-[36rem] text-left text-sm">
+                <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold" scope="col">
+                      Papel
+                    </th>
+                    <th className="px-4 py-3 font-semibold" scope="col">
+                      E-mail
+                    </th>
+                    <th className="px-4 py-3 font-semibold" scope="col">
+                      Senha
+                    </th>
+                    <th className="px-4 py-3 font-semibold" scope="col">
+                      Uso
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {DEMO_CREDENTIALS.map((row) => (
+                    <tr
+                      className="border-b border-slate-100 last:border-0"
+                      key={row.email}
+                    >
+                      <td className="px-4 py-3 font-medium text-slate-900">
+                        {row.role}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-xs text-slate-800">
+                        {row.email}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-xs text-slate-800">
+                        {row.password}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{row.label}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Link

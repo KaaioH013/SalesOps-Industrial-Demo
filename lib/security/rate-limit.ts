@@ -7,7 +7,7 @@ const buckets = new Map<string, Bucket>();
 
 /**
  * Rate limit em memória (por instância). Adequado para demo pública;
- * não substitui WAF/Vercel Firewall em escala.
+ * não substitui WAF/Vercel Firewall em escala multi-instância.
  */
 export function rateLimit(
   key: string,
@@ -33,10 +33,40 @@ export function rateLimit(
   return { ok: true };
 }
 
+/**
+ * IP para rate limit: preferir headers da plataforma (Vercel).
+ * Não confiar no 1º hop genérico de `x-forwarded-for` (forjável em self-host).
+ */
 export function clientIpFromHeaders(headers: Headers): string {
-  const forwarded = headers.get("x-forwarded-for");
-  if (forwarded) {
-    return forwarded.split(",")[0]?.trim() || "unknown";
+  const vercel = headers.get("x-vercel-forwarded-for");
+  if (vercel) {
+    return vercel.split(",")[0]?.trim() || "unknown";
   }
-  return headers.get("x-real-ip") || "unknown";
+
+  const realIp = headers.get("x-real-ip");
+  if (realIp?.trim()) {
+    return realIp.trim();
+  }
+
+  return "unknown";
+}
+
+const locks = new Map<string, number>();
+
+/** Lock em memória por chave (TTL). Mesma limitação por instância do rateLimit. */
+export function tryAcquireLock(
+  key: string,
+  ttlMs: number,
+): { ok: true } | { ok: false } {
+  const now = Date.now();
+  const until = locks.get(key);
+  if (until !== undefined && until > now) {
+    return { ok: false };
+  }
+  locks.set(key, now + ttlMs);
+  return { ok: true };
+}
+
+export function releaseLock(key: string): void {
+  locks.delete(key);
 }

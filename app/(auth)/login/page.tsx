@@ -8,7 +8,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { DEMO_CREDENTIALS } from "@/lib/security/demo-allowlist";
+import {
+  DEMO_CREDENTIALS,
+  isDemoProfileSwitcherEnabled,
+} from "@/lib/security/demo-allowlist";
 
 const loginSchema = z.object({
   email: z.email("Informe um e-mail válido."),
@@ -147,30 +150,34 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-8 border-t border-slate-100 pt-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Atalhos demo
-            </p>
-            <ul className="mt-3 space-y-2">
-              {DEMO_CREDENTIALS.map((cred) => (
-                <li key={cred.email}>
-                  <button
-                    type="button"
-                    className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 px-3 py-2 text-left text-xs transition-colors hover:border-blue-950/40 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
-                    onClick={() => {
-                      setValue("email", cred.email);
-                      setValue("password", cred.password);
-                    }}
-                  >
-                    <span className="font-semibold text-slate-900">
-                      {cred.role}
-                    </span>
-                    <span className="font-mono text-slate-600">{cred.email}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {isDemoProfileSwitcherEnabled() ? (
+            <div className="mt-8 border-t border-slate-100 pt-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Atalhos demo
+              </p>
+              <ul className="mt-3 space-y-2">
+                {DEMO_CREDENTIALS.map((cred) => (
+                  <li key={cred.email}>
+                    <button
+                      type="button"
+                      className="flex w-full cursor-pointer flex-col rounded-md border border-slate-200 px-3 py-2 text-left text-xs transition-colors hover:border-blue-950/40 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-950"
+                      onClick={() => {
+                        setValue("email", cred.email);
+                        setValue("password", cred.password);
+                      }}
+                    >
+                      <span className="font-semibold text-slate-900">
+                        {cred.role}
+                      </span>
+                      <span className="font-mono text-slate-600">
+                        {cred.email}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </section>
       </div>
     </main>

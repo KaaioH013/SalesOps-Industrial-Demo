@@ -423,7 +423,7 @@ export function getDb() {
 **Interfaces:**
 - Produces: `computePriorityScore(input): { score: number; factors: { key: string; weight: number; contribution: number }[] }`
 - Produces: weights in `lib/analytics/score-weights.ts`
-- Produces: cron `Authorization: Bearer CRON_SECRET` or `?secret=`
+- Produces: cron `Authorization: Bearer CRON_SECRET` only
 
 - [ ] **Step 1: TDD all scoring/alert/forecast pure functions**
 - [ ] **Step 2: Persist into `customer_scores` / `alerts` / `forecast_snapshots`**

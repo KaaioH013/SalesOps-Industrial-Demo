@@ -19,10 +19,12 @@ declare module "next-auth" {
 
 declare module "@auth/core/jwt" {
   interface JWT {
-    id: string;
-    email: string;
-    name: string;
-    role: Role;
-    organizationId: string;
+    id?: string;
+    email?: string;
+    name?: string;
+    role?: Role;
+    organizationId?: string;
+    /** Epoch ms da última revalidação de role/org no DB */
+    rv?: number;
   }
 }

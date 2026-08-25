@@ -169,7 +169,7 @@ export function SettingsPanel({
                     </td>
                     {showMargin ? (
                       <td className="px-3 py-2 tabular-nums text-slate-700">
-                        {formatBRL(target.marginTargetCents / 100)}
+                        {formatBRL((target.marginTargetCents ?? 0) / 100)}
                       </td>
                     ) : null}
                     {isAdmin ? (

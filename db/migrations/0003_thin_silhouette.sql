@@ -1,0 +1,1 @@
+CREATE INDEX `profiles_org_idx` ON `profiles` (`organization_id`);

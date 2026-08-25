@@ -3,25 +3,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/db/client";
 import { organizations } from "@/db/schema";
 import { recalculateOrganizationScores } from "@/features/scoring/recalculate";
-
-function isAuthorized(request: NextRequest) {
-  const secret = process.env.CRON_SECRET;
-  if (!secret) return false;
-
-  const bearer = request.headers.get("authorization");
-  const querySecret = request.nextUrl.searchParams.get("secret");
-  return bearer === `Bearer ${secret}` || querySecret === secret;
-}
+import { isCronAuthorized } from "@/lib/security/cron-auth";
 
 export async function GET(request: NextRequest) {
-  if (!isAuthorized(request)) {
+  if (!isCronAuthorized(request.headers.get("authorization"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const organizationRows = await getDb().select({ id: organizations.id }).from(organizations);
-  const results = await Promise.all(
-    organizationRows.map((organization) => recalculateOrganizationScores(organization.id)),
-  );
+  const organizationRows = await getDb()
+    .select({ id: organizations.id })
+    .from(organizations);
+
+  const results = [];
+  for (const organization of organizationRows) {
+    results.push(await recalculateOrganizationScores(organization.id));
+  }
 
   return NextResponse.json({
     ok: true,

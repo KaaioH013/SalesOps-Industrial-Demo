@@ -33,10 +33,18 @@ export type SettingsTargetRow = {
   territoryId: string | null;
   territoryName: string | null;
   revenueTargetCents: number;
-  marginTargetCents: number;
+  /** Null para seller — evita over-fetch de margem no payload RSC */
+  marginTargetCents: number | null;
   newCustomersTarget: number;
   conversionTargetBps: number;
 };
+
+export function marginTargetForRole(
+  role: ProfileRole,
+  marginTargetCents: number,
+): number | null {
+  return role === "seller" ? null : marginTargetCents;
+}
 
 export type OrganizationConfig = {
   attentionDays: number;
@@ -107,7 +115,10 @@ export async function listSettingsTargets(params: {
       territoryId: target.territoryId,
       territoryName,
       revenueTargetCents: target.revenueTargetCents,
-      marginTargetCents: target.marginTargetCents,
+      marginTargetCents: marginTargetForRole(
+        params.role,
+        target.marginTargetCents,
+      ),
       newCustomersTarget: target.newCustomersTarget,
       conversionTargetBps: target.conversionTargetBps,
     }));

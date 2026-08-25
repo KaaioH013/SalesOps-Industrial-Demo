@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { check, index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 import { profileRoles } from "./enums";
 import { organizations } from "./organizations";
@@ -24,6 +24,7 @@ export const profiles = sqliteTable(
       .default(sql`(unixepoch())`),
   },
   (table) => [
+    index("profiles_org_idx").on(table.organizationId),
     check(
       "profiles_role_check",
       sql`${table.role} in ('admin', 'manager', 'seller')`,

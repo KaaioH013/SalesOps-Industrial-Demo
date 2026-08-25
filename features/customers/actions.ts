@@ -22,7 +22,7 @@ async function requireCustomerAccess(customerId: string) {
   const session = await auth();
 
   if (!session?.user) {
-    throw new Error("Autenticação necessária");
+    throw new Error("Não autorizado");
   }
 
   const conditions = [
@@ -40,7 +40,7 @@ async function requireCustomerAccess(customerId: string) {
   });
 
   if (!customer) {
-    throw new Error("Cliente não encontrado ou sem permissão");
+    throw new Error("Não encontrado");
   }
 
   return session.user;

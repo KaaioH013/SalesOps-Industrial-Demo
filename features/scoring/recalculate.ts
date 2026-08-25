@@ -22,8 +22,14 @@ import { averagePurchaseInterval, calculateRepurchaseScore } from "@/lib/analyti
 import { computePriorityScore } from "@/lib/analytics/scoring";
 import { auth } from "@/lib/auth/auth";
 import { requireRole } from "@/lib/permissions/roles";
+import {
+  rateLimit,
+  releaseLock,
+  tryAcquireLock,
+} from "@/lib/security/rate-limit";
 
 const DAY_MS = 86_400_000;
+const SCORE_LOCK_TTL_MS = 120_000;
 const GENERATED_ALERT_TYPES = ["quote_margin", "opportunity_staleness"];
 const OPEN_OPPORTUNITY_STAGES = [
   "novo",
@@ -42,6 +48,25 @@ function nextMonthPeriod(now: Date) {
 }
 
 export async function recalculateOrganizationScores(organizationId: string, now = new Date()) {
+  const lockKey = `score-lock:${organizationId}`;
+  if (!tryAcquireLock(lockKey, SCORE_LOCK_TTL_MS).ok) {
+    return {
+      customers: 0,
+      alerts: 0,
+      forecastPeriod: nextMonthPeriod(now),
+      skipped: true as const,
+      reason: "already_running" as const,
+    };
+  }
+
+  try {
+    return await runRecalculateOrganizationScores(organizationId, now);
+  } finally {
+    releaseLock(lockKey);
+  }
+}
+
+async function runRecalculateOrganizationScores(organizationId: string, now = new Date()) {
   const db = getDb();
   const [customerRows, orderRows, opportunityRows, quoteRows, quoteItemRows] = await Promise.all([
     db.select().from(customers).where(eq(customers.organizationId, organizationId)),
@@ -239,8 +264,17 @@ export async function recalculateOrganizationScores(organizationId: string, now 
 
 export async function recalculateScores() {
   const session = await auth();
-  if (!session?.user) throw new Error("Autenticação necessária");
+  if (!session?.user) throw new Error("Não autorizado");
   requireRole(session.user.role, ["admin", "manager"]);
+
+  const limited = rateLimit(
+    `recalc:${session.user.organizationId}`,
+    2,
+    60_000,
+  );
+  if (!limited.ok) {
+    throw new Error("Aguarde antes de recalcular novamente");
+  }
 
   const result = await recalculateOrganizationScores(session.user.organizationId);
   revalidatePath("/insights");

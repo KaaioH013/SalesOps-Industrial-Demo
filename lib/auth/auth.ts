@@ -14,6 +14,8 @@ const credentialsSchema = z.object({
   password: z.string().min(1).max(128),
 });
 
+const JWT_REVALIDATE_MS = 5 * 60 * 1000;
+
 export const { auth, handlers, signIn, signOut } = NextAuth({
   secret: process.env.AUTH_SECRET,
   trustHost: true,
@@ -68,23 +70,72 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id ?? "";
         token.email = user.email ?? "";
         token.name = user.name ?? "";
         token.role = user.role;
         token.organizationId = user.organizationId;
+        token.rv = Date.now();
+        return token;
       }
 
+      if (!token.id) {
+        return token;
+      }
+
+      const stale =
+        trigger === "update" ||
+        !token.rv ||
+        Date.now() - Number(token.rv) > JWT_REVALIDATE_MS;
+
+      if (!stale) {
+        return token;
+      }
+
+      const profile = await getDb().query.profiles.findFirst({
+        columns: {
+          role: true,
+          organizationId: true,
+          email: true,
+          name: true,
+        },
+        where: eq(profiles.id, String(token.id)),
+      });
+
+      if (!profile) {
+        return {
+          ...token,
+          role: undefined,
+          organizationId: undefined,
+          email: undefined,
+          name: undefined,
+          rv: Date.now(),
+        };
+      }
+
+      token.role = profile.role;
+      token.organizationId = profile.organizationId;
+      token.email = profile.email;
+      token.name = profile.name;
+      token.rv = Date.now();
       return token;
     },
     session({ session, token }) {
-      session.user.id = token.id;
-      session.user.email = token.email;
-      session.user.name = token.name;
+      if (!token.role || !token.organizationId || !token.id) {
+        return {
+          ...session,
+          user: undefined as unknown as typeof session.user,
+          expires: new Date(0).toISOString(),
+        };
+      }
+
+      session.user.id = String(token.id);
+      session.user.email = String(token.email ?? "");
+      session.user.name = String(token.name ?? "");
       session.user.role = token.role;
-      session.user.organizationId = token.organizationId;
+      session.user.organizationId = String(token.organizationId);
 
       return session;
     },
