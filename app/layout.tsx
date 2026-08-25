@@ -17,6 +17,15 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "SalesOps Industrial Demo",
   description: "Demonstração sintética de Sales Ops industrial B2B",
+  icons: {
+    icon: [{ url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  openGraph: {
+    title: "SalesOps Industrial Demo",
+    description: "Demonstração sintética de Sales Ops industrial B2B",
+    images: [{ url: "/brand/logo-512.png", width: 512, height: 512 }],
+  },
 };
 
 export default function RootLayout({

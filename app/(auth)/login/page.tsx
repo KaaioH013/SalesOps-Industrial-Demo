@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import {
   DEMO_CREDENTIALS,
   isDemoProfileSwitcherEnabled,
@@ -60,12 +61,13 @@ export default function LoginPage() {
     <main className="relative flex min-h-dvh flex-col bg-paper text-ink">
       <div aria-hidden className="so-grain pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 border-b border-border bg-paper-raised">
+      <div className="relative z-10 border-b border-border bg-paper">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
           <Link
-            className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
+            className="flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
             href="/"
           >
+            <BrandLogo size={28} className="h-7 w-7" />
             ← Voltar à landing
           </Link>
           <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
@@ -77,7 +79,8 @@ export default function LoginPage() {
       <div className="relative z-10 mx-auto grid w-full max-w-5xl flex-1 lg:grid-cols-[0.95fr_1.05fr]">
         <aside className="hidden border-r border-border bg-primary p-8 text-white lg:flex lg:flex-col lg:justify-between">
           <div>
-            <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-blue-200">
+            <BrandLogo size={72} priority className="h-[4.5rem] w-[4.5rem]" />
+            <p className="mt-6 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-blue-200">
               SalesOps Industrial
             </p>
             <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight">
@@ -96,8 +99,9 @@ export default function LoginPage() {
           aria-labelledby="login-title"
           className="flex flex-col justify-center px-4 py-10 sm:px-8 lg:px-12"
         >
-          <div className="w-full max-w-md border border-border bg-paper-raised p-8">
-            <div className="mb-6 lg:hidden">
+          <div className="w-full max-w-md border border-border bg-paper p-8">
+            <div className="mb-6 flex items-center gap-3 lg:hidden">
+              <BrandLogo size={40} className="h-10 w-10" />
               <p className="so-label">SalesOps Industrial</p>
             </div>
             <h2

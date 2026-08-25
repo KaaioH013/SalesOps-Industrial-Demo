@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Database, Lock, ShieldCheck } from "lucide-react";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import {
   DEMO_CREDENTIALS,
   isDemoProfileSwitcherEnabled,
@@ -51,14 +52,17 @@ export default function LandingPage() {
         Ir para o conteúdo
       </a>
 
-      <header className="relative z-10 border-b border-border">
+      <header className="relative z-10 border-b border-border bg-paper">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-          <div>
-            <p className="so-label">Case de portfólio</p>
-            <p className="mt-0.5 text-sm font-semibold tracking-tight text-ink">
-              SalesOps Industrial Demo
-            </p>
-          </div>
+          <Link href="/" className="flex items-center gap-3">
+            <BrandLogo size={44} priority className="h-11 w-11" />
+            <div>
+              <p className="so-label">Case de portfólio</p>
+              <p className="mt-0.5 text-sm font-semibold tracking-tight text-ink">
+                SalesOps Industrial Demo
+              </p>
+            </div>
+          </Link>
           <nav className="flex items-center gap-2 sm:gap-4" aria-label="Atalhos">
             <a
               className="hidden cursor-pointer text-sm font-medium text-ink-muted transition-colors hover:text-ink sm:inline"
@@ -85,9 +89,12 @@ export default function LandingPage() {
           />
           <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:py-24">
             <div>
-              <p className="so-enter font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-200">
-                SalesOps Industrial Demo
-              </p>
+              <div className="so-enter flex items-center gap-3">
+                <BrandLogo size={56} priority className="h-14 w-14" />
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-200">
+                  SalesOps Industrial Demo
+                </p>
+              </div>
               <h1 className="so-enter so-enter-delay-1 mt-4 max-w-2xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
                 Operação comercial B2B industrial, em uma demo navegável.
               </h1>
@@ -296,9 +303,12 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-border bg-paper-raised">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="font-medium text-ink">SalesOps Industrial Demo</p>
+      <footer className="relative z-10 border-t border-border bg-paper">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex items-center gap-3">
+            <BrandLogo size={36} className="h-9 w-9" />
+            <p className="font-medium text-ink">SalesOps Industrial Demo</p>
+          </div>
           <p className="font-mono text-xs tracking-wide">
             CASE / LINKEDIN · NÃO É PRODUTO COMERCIAL
           </p>

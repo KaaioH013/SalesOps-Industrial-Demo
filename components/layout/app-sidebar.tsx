@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -76,18 +77,24 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 
 function BrandBlock({ compact }: { compact?: boolean }) {
   return (
-    <div>
-      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-sidebar-muted">
-        SalesOps
-      </p>
-      <p
-        className={cn(
-          "mt-1 font-semibold tracking-tight text-white",
-          compact ? "text-base" : "text-lg",
-        )}
-      >
-        Industrial
-      </p>
+    <div className="flex items-center gap-3">
+      <BrandLogo
+        size={compact ? 36 : 44}
+        className={compact ? "h-9 w-9" : "h-11 w-11"}
+      />
+      <div>
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-sidebar-muted">
+          SalesOps
+        </p>
+        <p
+          className={cn(
+            "mt-0.5 font-semibold tracking-tight text-white",
+            compact ? "text-base" : "text-lg",
+          )}
+        >
+          Industrial
+        </p>
+      </div>
     </div>
   );
 }

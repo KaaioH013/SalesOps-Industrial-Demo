@@ -2,6 +2,8 @@
 
 import { Menu } from "lucide-react";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
+
 type AppHeaderProps = {
   userName?: string | null;
   onMenuClick: () => void;
@@ -9,7 +11,7 @@ type AppHeaderProps = {
 
 export function AppHeader({ userName, onMenuClick }: AppHeaderProps) {
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-paper-raised px-4 lg:px-6">
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-paper px-4 lg:px-6">
       <div className="flex items-center gap-3">
         <button
           type="button"
@@ -19,6 +21,7 @@ export function AppHeader({ userName, onMenuClick }: AppHeaderProps) {
         >
           <Menu className="h-5 w-5" />
         </button>
+        <BrandLogo size={32} className="hidden h-8 w-8 sm:block lg:hidden" />
         <div>
           <p className="so-label">SalesOps</p>
           <p className="text-sm font-semibold tracking-tight text-ink">
