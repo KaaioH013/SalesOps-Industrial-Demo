@@ -9,6 +9,25 @@ feita com Next.js, Turso/libSQL, Drizzle ORM e Auth.js.
 A rota `/` é uma **landing de portfólio** (ideia, stack, como entrar). A app
 protegida começa em `/login` → `/dashboard`.
 
+## O problema e a proposta
+
+Uma operação comercial precisa consultar sua carteira e registrar as próximas ações sem perder o contexto de cada cliente. Esta demonstração organiza dashboard, clientes e atividades em uma aplicação com diferentes níveis de acesso.
+
+## O que explorar
+
+| Recurso | O que demonstra |
+| --- | --- |
+| Dashboard e clientes | Organização da informação comercial em uma interface web |
+| Registro de atividades | Acompanhamento das ações relacionadas a um cliente |
+| Administrador, gerente e vendedor | Controle de acesso conforme a responsabilidade do usuário |
+| Base sintética reproduzível | Ambiente para explorar o produto sem utilizar dados comerciais reais |
+
+**Percurso sugerido:** execute a aplicação localmente, entre com um usuário demo, abra o dashboard, consulte um cliente e registre uma atividade.
+
+O projeto inclui testes de autorização e um fluxo E2E documentado abaixo. A base completa de demonstração contém 350 clientes e 2.500 pedidos sintéticos; esses números descrevem o cenário de teste, não clientes atendidos ou resultados reais.
+
+[← Voltar ao portfólio](https://github.com/KaaioH013)
+
 ## Segurança da demo pública
 
 - **Sem cadastro**: só autenticam e-mails da allowlist `*@demo.local` seed.
@@ -30,7 +49,7 @@ Isso reduz abuso casual; não substitui WAF/Firewall em escala.
 ## Instalação local
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/KaaioH013/SalesOps-Industrial-Demo.git
 cd SalesOps-Industrial-Demo
 npm ci
 ```
