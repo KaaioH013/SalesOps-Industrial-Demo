@@ -39,11 +39,11 @@ jobs:
         run: npm ci --no-audit --no-fund
 
       - name: Prepare synthetic local database
+        env:
+          TURSO_DATABASE_URL: file:./local.db
+          AUTH_SECRET: portfolio-github-actions-secret
+          CRON_SECRET: portfolio-github-actions-secret
         run: |
-          cp .env.example .env
-          sed -i 's|^TURSO_DATABASE_URL=.*|TURSO_DATABASE_URL=file:./local.db|' .env
-          sed -i 's|^AUTH_SECRET=.*|AUTH_SECRET=portfolio-github-actions-secret|' .env
-          sed -i 's|^CRON_SECRET=.*|CRON_SECRET=portfolio-github-actions-secret|' .env
           npm run db:migrate
           npm run db:seed
 
