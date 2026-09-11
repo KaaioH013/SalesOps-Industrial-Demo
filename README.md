@@ -26,6 +26,8 @@ Uma operação comercial precisa consultar sua carteira e registrar as próximas
 
 O projeto inclui testes de autorização e um fluxo E2E documentado abaixo. A base completa de demonstração contém 350 clientes e 2.500 pedidos sintéticos; esses números descrevem o cenário de teste, não clientes atendidos ou resultados reais.
 
+[Ler case study e gerar as capturas de portfólio →](docs/portfolio/CASE_STUDY.md)
+
 [← Voltar ao portfólio](https://github.com/KaaioH013)
 
 ## Segurança da demo pública
