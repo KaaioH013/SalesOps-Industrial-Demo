@@ -28,6 +28,16 @@ O projeto inclui testes de autorização e um fluxo E2E documentado abaixo. A ba
 
 [Ler case study e gerar as capturas de portfólio →](docs/portfolio/CASE_STUDY.md)
 
+## Prévia da demonstração
+
+Dados e usuários apresentados abaixo foram gerados pelo seed público do projeto.
+
+![Dashboard com indicadores comerciais sintéticos](docs/portfolio/images/dashboard-demo.png)
+
+![Carteira de clientes sintética](docs/portfolio/images/customers-demo.png)
+
+![Detalhe de cliente e histórico de atividades sintéticos](docs/portfolio/images/customer-detail-demo.png)
+
 [← Voltar ao portfólio](https://github.com/KaaioH013)
 
 ## Segurança da demo pública
