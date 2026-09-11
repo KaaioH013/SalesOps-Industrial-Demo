@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+// Captures only the public synthetic demo data.\nimport { spawn } from "node:child_process";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
